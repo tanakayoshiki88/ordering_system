@@ -20,6 +20,9 @@
   <!-- Custom styles for this template-->
   <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
+  <!-- My style -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+
 </head>
 
 <body id="page-top">
@@ -111,7 +114,7 @@
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Other Pages:</h6>
             <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="{% url 'order:inquiry' %}">お問合せ</a>
+            <a class="collapse-item" href="{% url 'order:contact' %}">お問合せ</a>
           </div>
         </div>
       </li>
@@ -341,16 +344,15 @@
 
           <!-- Content Row -->
           <div class="row">
-
-            {% block contents %}{% endblock %}
-
+            <div class="container-fluid">
+              {% block contents %}{% endblock %}
+            </div>
           </div>
-        </div>
 
-      </div>
+        </div>
         <!-- /.container-fluid -->
 
-    </div>
+      </div>
       <!-- End of Main Content -->
 
       <!-- Footer -->

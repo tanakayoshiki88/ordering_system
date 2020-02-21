@@ -1,0 +1,10 @@
+#id_message {
+    border-radius: 2em;
+    padding: 1.3em;
+}
+
+.send_message {
+    padding: 3em 2em;
+    font-size: 25px;
+    color: #333333;
+}
