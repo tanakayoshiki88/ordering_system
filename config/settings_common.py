@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from django.contrib.messages import constants as messages
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -34,6 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'order.apps.OrderConfig',
+    'accounts.apps.AccountsConfig',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +59,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth', 'account')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,6 +88,9 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+# 拡張ユーザーモデル
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Password validation
@@ -126,3 +137,44 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'alert alert_danger',
+    messages.WARNING: 'alert alert_warning',
+    messages.SUCCESS: 'alert alert_success',
+    messages.INFO: 'alert alert_info',
+}
+
+
+# django.allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+    # 一般ユーザー用（メールアドレス認証:allauth固有の設定）
+    'allauth.account.auth_backends.AuthenticationBackend'
+
+    # 管理サイト用（ユーザー名認証:allauthに関係なく設定が必要）
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+# メールアドレス認証に変更する設定
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# ユーザー登録確認メールを送信する
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# メールアドレスを必須項目にする
+ACCOUNT_EMAIL_REQUIRED = True
+
+# ログイン後の遷移先
+LOGIN_REDIRECT_URL = 'order:index'
+
+# ログアウト後の遷移先
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+# 中間ログアウトページを無効にする。ユーザーがログアウトリンクをクリックすると、すぐにログアウト
+ACCOUNT_LOGOUT_ON_GET = True
+
+#

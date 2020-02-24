@@ -22,7 +22,7 @@ class ContactView(generic.FormView):
         name = form.cleaned_data['last_name'] + " " + form.cleaned_data['first_name']
 
         form.send_email()
-        messages.success(self.request, 'メッセージを送信しました。')
+        messages.success(self.request, 'メッセージを送信しました!!')
         logger.info('contact send by {}'.format('name'))
 
         return super().form_valid(form)
