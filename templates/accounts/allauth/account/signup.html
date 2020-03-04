@@ -1,27 +1,56 @@
 {% extends './auth_base.html' %}
 
-{% block title %}サインアップ｜Private Diary{% endblock %}
+{% block title %}Register | X-order{% endblock %}
 
-{% block active_signup %}active{% endblock %}
 
 {% block contents %}
-  <div class="container">
-    <div class="row">
-      <div class="my-div-style">
-        <h1>サインアップ</h1>
+    <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+            <div class="col-lg-7">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                </div>
+                <form method="post" action="{% url 'account_signup' %}" class="user">
+                  {% csrf_token %}
 
-        <form method="post" action="{% url 'account_signup' %}">
-          {% csrf_token %}
-          {{ form.as_p }}
+                  {{ form.non_field_errors }}
+                  {% for field in form %}
+                  <div class="form-group" id="mysitle_form">
+                    {{ field }}
+                    {{ field.errors }}
+                  </div>
+                  {% endfor %}
 
-          {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
+                  <div class="field">
+                    <button class="btn btn-primary btn-user btn-block" type="submit">Register Account</button>
+                  </div>
 
-          <button class="btn btn-primary" type="submit">登録</button>
-        </form>
+                  <hr>
 
+                  <!-- ソーシャルサインアップ -->
+                  <a href="index.html" class="btn btn-google btn-user btn-block">
+                    <i class="fab fa-google fa-fw"></i> Register with Google
+                  </a>
+                  <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                  </a>
+                </form>
+                <hr>
+                <div class="text-center">
+                  <a class="small" href="forgot-password.html">Forgot Password?</a>
+                </div>
+                <div class="text-center">
+                  <a class="small" href="{% url 'account_login' %}">Already have an account? Login!</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 {% endblock %}
+

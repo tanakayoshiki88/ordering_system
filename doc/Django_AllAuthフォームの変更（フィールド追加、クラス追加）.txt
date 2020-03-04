@@ -1,0 +1,160 @@
+Django AllAuthフォームの変更
+ギャビン・ウィーナー
+ギャビン・ウィーナー
+フォロー
+2019年10月10日 ・読み取り 4 分
+
+あなたはジャンゴが好きです、素晴らしい！ここをクリックして、無料のガイド「時間を浪費する初心者のDjangoの間違い」を今すぐ入手してください
+django-allauthDjango開発者として聞いたことがないのであれば、驚くでしょう。これは、ユーザー登録、サインアップ、ソーシャルアカウント登録をはるかに簡単にするサードパーティアプリケーションです。私のユースケースに特化して、ユーザーはユーザー名の代わりにメールとパスワードだけで登録してログインすることもできます。
+ただし、メール/パスワードのサインアップだけでなく、ユーザーが参加している「組織」の名前、プロモーションコード、紹介コードなどを追加する必要がある場合もあります。クイックガイドを作成しました。
+このショートピースでは、その方法の概要を説明します。
+フィールドを追加する
+プルAllAuthの独自のテンプレートとスタイルにフォームを
+フォームに追加のCSSクラスを追加します
+拡張（フィールドの追加）
+フォームのカスタマイズで最も難しいのは、必要なフォームを見つけることですが、各フローに使用されるフォームを示すドキュメントを見つけた後は、はるかに簡単です。のリストから選択しACCOUNT_FORMSます。今、私たちはレポでこのフォームを見つけたいです
+私の状況では、多数の追加フィールドを追加する必要はなかったので、デフォルトのallauthサインアップフォームを拡張することでこれらのフィールドを動的に追加することを選択しました（このためのより良いプラクティスがあるかどうか、たとえば、メタモデルを変更してサインアップをフォームが使用しますが、これは検証などに影響しますか？）
+ここで私はと呼ばれる単一の新しいフィールドを追加したかった organization
+
+
+from  allauth.account.forms import  SignupForm 
+class MyCustomSignupForm（SignupForm）：
+    def __init __（self、* args、** kwargs）：
+        super（MyCustomSignupForm、self）.__ init __（* args、** kwargs）
+        self.fields ['organization' ] = forms.CharField（required = True）
+     def  save（self、request）：
+        organization = self.cleaned_data.pop（ 'organization'）
+         ... 
+        user = super（MyCustomSignupForm、self）.save（request）
+
+
+そして、使用する新しいフォームをsettings.pyで指定する必要があります。ドキュメントのデフォルトの辞書にあるフォームを置き換えています
+
+ACCOUNT_FORMS = { 'signup'：'users.forms.MyCustomSignupForm' }
+
+結果（注：実際に2つのフィールドを追加しましたが、この例では1つのフィールドのコードのみを示しています）;
+
+追加フィールドを含む登録フォーム
+__init__新しいフォームにログステートメントを追加してサインアップページにアクセスする必要がある場合、新しいフォームが使用されていることがわかります。
+Django-AllAuthフォームのテンプレートを変更する
+理想的には、プロジェクトのスタイリングなどを使用して、AllAuthフォームをベースから継承する必要があるため、一般的に最も簡単なアプローチはテンプレートをオーバーライドすることです。
+テンプレートの検索は、ドキュメントでは明確に示されていませんが、すべてのデフォルトのアカウント登録およびサインアップテンプレートはテンプレートにあります。正しいと思われるものを選択します。たとえば、テンプレートの文言と画面に表示される内容などを確認します。電話をかけます。必要がある;
+accountテンプレートディレクトリを作成する
+拡張/オーバーライドするテンプレートを見つけます
+テンプレートコードをコピーして貼り付けます
+同じ名前でファイルを保存します
+
+オーバーライドしたテンプレートの例
+あなたはジャンゴが好きです、素晴らしい！ここをクリックして、無料のガイド「時間を浪費する初心者のDjangoの間違い」を今すぐ入手してください
+私の状況では、オーバーライドした特定のテンプレートについて、継承されたベーステンプレートを変更し、直接フォームに関係のないものをすべて削除crispyし、フォームでタグを使用する必要がありました。注、私はまた、あなたがこれらの機能を使用する場合、社会のアカウントと私は必要としませんでしたエキストラのビットに関連したテンプレート内の行を削除し、これはそれを意識することが重要です。
+CSSを追加する
+フォームフィールドに特定のクラスを追加する必要がある場合、または特定のCSSフレームワークの要件に合わせようとする場合、カスタムCSSクラスの追加はフォームでも実行できます__init__。これは、ウィジェットと対話することで実現されます（このタイプの対話は、AllAuthのソースコードで非常に多く行われます）
+
+
+すべてのフィールドを更新します。
+class MyCustomSignupForm(SignupForm):
+
+    def __init__(self, *args, **kwargs):
+        super(MyCustomSignupForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'red-border'
+            })
+
+
+単一のフィールドを更新します。
+class MyCustomSignupForm(SignupForm):
+
+    def __init__(self, *args, **kwargs):
+        super(MyCustomSignupForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
+            'class': 'red-border'
+        })
+
+
+あなたはジャンゴが好きです、素晴らしい！ここをクリックして、無料のガイド「時間を浪費する初心者のDjangoの間違い」を今すぐ入手してください
+概要
+掘り下げるスポットdjango-allauth（および一般的なDjangoフォーム）を選択すると、前の例のようにほんの一握りの行で多くのことを達成できますが、一部には少し手間がかかります。
+フィールドの追加は、デフォルトのフォームのをオーバーライドすることで実現できます__init__。
+すべてのフィールドにCSSクラスを追加するには、フォームもオーバーライドする必要があります（テンプレートでこれを行う場合を除きます）。
+テンプレートをプロジェクトのテンプレートに完全に統合するには、AllAuthリポジトリでテンプレートを見つけてコピーする必要があります
+
+
+
+##############  英語　原文　########################################################################################################################
+
+
+Modifying Django AllAuth Forms
+Gavin Wiener
+Gavin Wiener
+Follow
+Oct 10, 2019 · 4 min read
+
+You like Django, GREAT! Click here to get your free guide “Top Time-Wasting Beginner Django Mistakes” now
+It would be surprising if you haven’t heard of a django-allauth as a Django developer. It’s a 3rd party application which makes user registration, sign-up, and social account registration a lot easier. Specifically to my use-case, it also allows users to register and login with just an email and password instead of a username.
+But there are times when you when you need extend beyond just a email/password signup e.g. the user must add the name of an “organization” they are joining, a promo code, a referral code etc. It tripped me up a bit at the start so wrote a quick guide.
+This short-piece will outline how to;
+Add additional fields
+Pull AllAuth forms into your own templates and styling
+Add additional CSS classes to the forms
+Extending (Adding Fields)
+The trickiest part of customizing the forms comes to LOCATING the necessary form, but this is a lot easier after I found documentation indicating the forms used for each flow. Choose from the list in the ACCOUNT_FORMS. Now we want to find this form in the repo
+My situation did not require adding a significant number of additional fields, so I elected to add these fields dynamically by extending the default allauth signup form (I’d love to hear if there are better practices for this e.g. can we change the meta model the signup form uses, but will this affect validation and such?).
+Here I wanted to add a single new field called organization
+from allauth.account.forms import SignupForm
+class MyCustomSignupForm(SignupForm):
+    def __init__(self, *args, **kwargs):
+        super(MyCustomSignupForm, self).__init__(*args, **kwargs)
+        self.fields['organization'] = forms.CharField(required=True)
+    def save(self, request):
+        organization = self.cleaned_data.pop('organization')
+        ...
+        user = super(MyCustomSignupForm, self).save(request)
+And then we need to indicate the new form to use in the settings.py. We’re replacing the form in that dictionary of defaults from the documentation
+ACCOUNT_FORMS = {'signup': 'users.forms.MyCustomSignupForm'}
+Result (Note: I actually added two fields but just indicating the code for one in this example);
+
+Signup form with additional fields
+If we had to add a log statement in the __init__ of the new form and visit the sign-up page, we’d see the new form is in use.
+Change Template of Django-AllAuth Forms
+Ideally, we want the AllAuth forms to be inheriting from our bases, using our project’s styling etc, so generally the easiest approach is going to be overriding the template.
+Finding the templates is not indicated as clearly in the documentation, but all default account registration and signup templates are located in templates. Pick the one which appears correct e.g. check the wording of the template vs. what we see on screen etc. Make a call. We need to;
+Create an account template directory
+Find the template we want to extend/override
+Copy-paste the template code
+Save the file with the same name
+
+Example of templates I have overridden
+You like Django, GREAT! Click here to get your free guide “Top Time-Wasting Beginner Django Mistakes” now
+In my situation, and for the given templates I overrode, I just had to change the base template inherited and remove anything non-related to the direct form, and use the crispy tag in the form. Note, I also removed lines in the template related to social accounts and a bit of extras I did not require, this is important to be aware of it if you intend to use these features.
+Adding CSS
+Now if we still need to add specific classes to form fields, or trying to make them fit into a given CSS framework’s requirements, adding custom CSS classes can be achieved in the form’s __init__ as well. This is achieved by interacting with the widgets (this type of interaction is done quite a lot in the source code of AllAuth)
+
+
+Update all fields;
+class MyCustomSignupForm(SignupForm):
+
+    def __init__(self, *args, **kwargs):
+        super(MyCustomSignupForm, self).__init__(*args, **kwargs)
+        for fieldname, field in self.fields.items():
+            field.widget.attrs.update({
+                'class': 'red-border'
+            })
+
+
+Update a single field;
+class MyCustomSignupForm(SignupForm):
+
+    def __init__(self, *args, **kwargs):
+        super(MyCustomSignupForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({
+            'class': 'red-border'
+        })
+
+
+You like Django, GREAT! Click here to get your free guide “Top Time-Wasting Beginner Django Mistakes” now
+Summary
+Once picking up the spots to dig into django-allauth (and Django forms in general), a lot can be achieved in just a handful of lines, like in the previous examples, but some require a bit more work;
+Adding fields can achieved by overriding the default form’s __init__,
+Adding CSS classes to all the fields requires overriding the form as well (unless you want to do this in the template rather)
+Completely integrating a template into your project’s templates requires finding the template in the AllAuth repo and copying it over

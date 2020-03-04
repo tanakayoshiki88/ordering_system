@@ -59,7 +59,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth', 'account')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'order',
+        'NAME': 'ordering_system',
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'localhost',
@@ -177,4 +177,13 @@ ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 # 中間ログアウトページを無効にする。ユーザーがログアウトリンクをクリックすると、すぐにログアウト
 ACCOUNT_LOGOUT_ON_GET = True
 
-#
+# django-allauthの各フォームをカスタマイズ
+ACCOUNT_FORMS = {
+    'signup': 'accounts.forms.CustomSignupForm',
+    'login': 'accounts.forms.CustomLoginForm',
+    'reset_password': 'accounts.forms.CustomResetPasswordForm',
+    'reset_password_from_key': 'accounts.forms.CustomResetPasswordKeyForm'
+}
+
+# メディアファイルを保存するディレクトリを設定
+MEDIA_URL = '/media/'
