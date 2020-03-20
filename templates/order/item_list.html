@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}X-order{% endblock %}
+
+{% block content_title %}X-order{% endblock %}
+
+{% block contents %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>商品画像</th>
+          <th>商品名</th>
+          <th>在庫数</th>
+            <th>単位</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.photo }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.stock }}</td>
+              <td>{{ item.unit }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}
