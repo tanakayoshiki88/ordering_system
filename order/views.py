@@ -31,14 +31,12 @@ class ContactView(generic.FormView):
 
         return super().form_valid(form)
 
-def ItemListView(request):
+class OderCreateView(LoginRequiredMixin, generic.CreateView):
     '''商品一覧 兼 注文画面'''
+    template_name = "order/oder_create.html"
+    model = Item
 
-    params = {
-        'items': Item.objects.all(),
-    }
 
-    return render(request, 'item_list.html', params)
 
 class ItemCreateView(LoginRequiredMixin, generic.CreateView):
     '''商品登録機能'''
@@ -60,3 +58,8 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
         messages.error(self.request, '商品の登録に失敗しました。お手数ですが、はじめから登録をやり直してください。')
 
         return super().form_invalid(form)
+
+class ItemListView(generic.ListView):
+    '''商品リストを表示'''
+    template_name = 'order/item_list.html'
+    model = Item

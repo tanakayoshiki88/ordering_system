@@ -59,7 +59,6 @@ class OderForm(forms.Form):
 
 class ItemCreateForm(forms.ModelForm):
     # 商品登録フォーム
-
     class Meta:
         model = Item
         fields = ("name", "price", "including_tax", "unit", "stock", "category1", "category2", "category3", "photo")
