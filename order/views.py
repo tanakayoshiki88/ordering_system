@@ -38,6 +38,7 @@ class OderCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 
+
 class ItemCreateView(LoginRequiredMixin, generic.CreateView):
     '''商品登録機能'''
     template_name = "order/item_create.html"
@@ -59,7 +60,12 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
 
         return super().form_invalid(form)
 
-class ItemListView(generic.ListView):
+class ItemListView(LoginRequiredMixin, generic.ListView):
     '''商品リストを表示'''
     template_name = 'order/item_list.html'
     model = Item
+    paginate_by = 1
+
+    def get_queryset(self):
+        items = Item.objects.filter(user=self.request.user).order_by('created_at')
+        return items

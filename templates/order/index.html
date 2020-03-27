@@ -7,6 +7,17 @@
 {% block content_title %}X-order{% endblock %}
 
 {% block contents %}
+    {% if messages %}
+        <div class="send_message" hidden><!-- メッセージを削除するため{{ message }}を記述し、非表示にするためにhidden属性を設定 -->
+            <ul style="list-style: none">
+                {% for message in messages %}
+                <li>
+                    <p>{{ message }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <div class="col-xl-12">
         <h1 class="mt-4">X-order</h1>
         <p>X-order is ordering system</p>

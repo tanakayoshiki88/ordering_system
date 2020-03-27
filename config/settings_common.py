@@ -139,13 +139,6 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 
-MESSAGE_TAGS = {
-    messages.ERROR: 'alert alert_danger',
-    messages.WARNING: 'alert alert_warning',
-    messages.SUCCESS: 'alert alert_success',
-    messages.INFO: 'alert alert_info',
-}
-
 
 # django.allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
 SITE_ID = 1

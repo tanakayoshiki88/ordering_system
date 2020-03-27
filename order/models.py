@@ -12,6 +12,7 @@ class Item(models.Model):
         # django 管理画面の表示、名前末尾に s は表示されない
         verbose_name_plural = '商品'
 
+
     # カラム定義
     user = models.ForeignKey(CustomUser, verbose_name='ユーザー', on_delete=models.PROTECT)
     name = models.CharField(verbose_name='商品名', max_length=40, unique=True)

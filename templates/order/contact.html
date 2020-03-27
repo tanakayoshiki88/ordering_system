@@ -38,7 +38,7 @@
               <div class="send_message">
                 <ul style="list-style: none">
                   {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                    <li>
                       <p>{{ message }}</p>
                     </li>
                   {% endfor %}
@@ -80,6 +80,10 @@
                     <button class="btn btn-primary btn-user btn-block" type="submit">Submit</button>
                 </div>
               </form>
+              <hr>
+              <div class="text-center">
+                    <a class="small" href="{% url 'order:index' %}">HOME</a>
+                  </div>
             </div>
           </div>
         </div>

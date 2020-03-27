@@ -13,7 +13,19 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                  {% if messages %}
+                    <div class="send_message" hidden><!-- メッセージを削除するため{{ message }}を記述し、非表示にするためにhidden属性を設定 -->
+                      <ul style="list-style: none">
+                        {% for message in messages %}
+                          <li>
+                            <p>{{ message }}</p>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                </div>
                 <div class="col-lg-6">
                   <div class="p-5">
                     <div class="text-center">

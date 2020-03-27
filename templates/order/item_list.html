@@ -10,21 +10,56 @@
     <table border="1">
       <thead>
         <tr>
-          <th>商品画像</th>
+          <th>test</th>
+          <th>user</th>
+          <th>id</th>
           <th>商品名</th>
           <th>在庫数</th>
-            <th>単位</th>
         </tr>
       </thead>
       <tbody>
         {% for item in item_list %}
           <tr>
-            <td>{{ item.photo }}</td>
+            <td>{{ item.user.id }}</td>
+            <td>{{ item.user }}</td>
+            <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
-            <td>{{ item.stock }}</td>
-              <td>{{ item.unit }}</td>
+            <td>{{ item.stock }}{{ item.unit }}</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
+
+    <!-- ページネーション処理 -->
+    {% if is_paginated %}
+      <ul class="pagination">
+        <!-- 前ページへのリンク -->
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+              <span>&laquo;</span>
+            </a>
+          </li>
+        {% endif %}
+
+        <!-- ページ数表示 -->
+        {% for page_num in page_obj.paginator.page_range %}
+          {% if page_obj.number == page_num %}
+            <li class="page-item" active><a class="page-link" href="#">{{ page_num }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        <!-- 次ページへのリンク -->
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+              <span>&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
 {% endblock %}
