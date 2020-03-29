@@ -7,24 +7,30 @@
 {% block content_title %}X-order{% endblock %}
 
 {% block contents %}
-    <table border="1">
+    <table class="table table-bordered" id="dataTable">
       <thead>
         <tr>
-          <th>test</th>
-          <th>user</th>
           <th>id</th>
+          <th></th>
           <th>商品名</th>
+          <th>価格</th>
+          <th>税込</th>
           <th>在庫数</th>
+          <th>商品詳細</th>
+          <th>削除</th>
         </tr>
       </thead>
       <tbody>
         {% for item in item_list %}
           <tr>
-            <td>{{ item.user.id }}</td>
-            <td>{{ item.user }}</td>
-            <td>{{ item.id }}</td>
+            <td>{{ item.pk }}</td>
+            <td>{{ item.photo }}</td>
             <td>{{ item.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.including_tax }}</td>
             <td>{{ item.stock }}{{ item.unit }}</td>
+            <td><a href="{% url 'order:item_detail' item.pk%}"><i class="fas fa-info-circle fa-lg"></i></a></td>
+            <td><a href="{% url 'order:item_detail' item.pk%}"><i class="far fa-trash-alt fa-lg"></i></a></td>
           </tr>
         {% endfor %}
       </tbody>

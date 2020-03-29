@@ -20,6 +20,8 @@ class Item(models.Model):
     including_tax = models.BooleanField(verbose_name='税込', default=False)
     unit = models.CharField(verbose_name='単位', max_length=10, default='個')
     stock = models.IntegerField(verbose_name='在庫数', blank=True, null=True)
+    moq = models.IntegerField(verbose_name='最低発注数量', blank=True, null=True, default=0)
+    spq = models.IntegerField(verbose_name='最小発注単位', blank=True, null=True, default=0)
     category1 = models.CharField(verbose_name='カテゴリ1', max_length=30, blank=True, null=True)
     category2 = models.CharField(verbose_name='カテゴリ2', max_length=30, blank=True, null=True)
     category3 = models.CharField(verbose_name='カテゴリ3', max_length=30, blank=True, null=True)

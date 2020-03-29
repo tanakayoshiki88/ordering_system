@@ -44,7 +44,9 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "order/item_create.html"
     model = Item
     form_class = ItemCreateForm
-    success_url = reverse_lazy('order:item_create')
+
+    def get_success_url(self):
+        return reverse_lazy('order:item_detail', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
         item = form.save(commit=False)
@@ -69,3 +71,25 @@ class ItemListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         items = Item.objects.filter(user=self.request.user).order_by('created_at')
         return items
+
+class ItemDetailView(LoginRequiredMixin, generic.DetailView):
+    '''登録商品詳細表示'''
+    template_name = 'order/item_detail.html'
+    model = Item
+
+class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
+    '''登録商品編集'''
+    template_name = 'order/item_update.html'
+    model = Item
+    form_class = ItemCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('order:item_detail', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        messages.success(self.request, '商品詳細を更新しました。')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, '商品詳細の更新に失敗しました。')
+        return super().form_invalid(form)

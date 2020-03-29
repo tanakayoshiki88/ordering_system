@@ -59,10 +59,9 @@ class ContactForm(forms.Form):
 '''
 class ItemCreateForm(forms.ModelForm):
     # 商品登録フォーム
-
     class Meta:
         model = Item
-        fields = ("name", "price", "including_tax", "unit", "stock", "category1", "category2", "category3", "photo")
+        fields = ("name", "price", "including_tax", "unit", "stock", "moq", "spq", "category1", "category2", "category3", "photo")
 
 
 '''    name = forms.CharField(label='商品名', max_length=40, required=True)
