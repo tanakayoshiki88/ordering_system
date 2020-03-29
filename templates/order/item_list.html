@@ -24,7 +24,12 @@
         {% for item in item_list %}
           <tr>
             <td>{{ item.pk }}</td>
-            <td>{{ item.photo }}</td>
+            <td>
+              {% if item.photo %}
+                <img src="{{ item.photo.url }}" class="item-photo"/></td>
+              {% else %}
+                <p>No image</p>
+              {% endif %}
             <td>{{ item.name }}</td>
             <td>{{ item.price }}</td>
             <td>{{ item.including_tax }}</td>
@@ -32,6 +37,8 @@
             <td><a href="{% url 'order:item_detail' item.pk%}"><i class="fas fa-info-circle fa-lg"></i></a></td>
             <td><a href="{% url 'order:item_detail' item.pk%}"><i class="far fa-trash-alt fa-lg"></i></a></td>
           </tr>
+        {% empty %}
+          <p>まだ商品が登録されておりません。</p>
         {% endfor %}
       </tbody>
     </table>

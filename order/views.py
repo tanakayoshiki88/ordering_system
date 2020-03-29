@@ -66,7 +66,7 @@ class ItemListView(LoginRequiredMixin, generic.ListView):
     '''商品リストを表示'''
     template_name = 'order/item_list.html'
     model = Item
-    paginate_by = 1
+    paginate_by = 10
 
     def get_queryset(self):
         items = Item.objects.filter(user=self.request.user).order_by('created_at')

@@ -10,7 +10,11 @@
 
     <h2>商品詳細</h2>
     <div>
-        <img src="{{ item.photo.url }}"  class="item-photo" width="100" />
+        {% if item.photo %}
+            <img src="{{ item.photo.url }}"  class="item-photo" />
+        {% else %}
+            <p class="No-image">No image</p>
+        {% endif %}
     </div>
     <hr>
     <div class="margin-top-5px">

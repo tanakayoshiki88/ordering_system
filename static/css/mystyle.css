@@ -53,6 +53,19 @@
 
 .item-photo {
     border: 1px solid;
+    width: 50%;
+    height: 25%;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.No-image {
+    border: 1px solid;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .item-edit-button {
