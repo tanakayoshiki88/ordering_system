@@ -33,6 +33,10 @@
     margin-top: 5px;
 }
 
+.margin-top-1rem {
+    margin-top: 1rem;
+}
+
 .margin-left-5px {
     margin-left: 5px;
 }
@@ -69,10 +73,18 @@
 }
 
 .item-edit-button {
-    margin-left: 19em;
+    text-align: right;
 }
 
 .hr-item-create-update {
     width: 50%;
     text-align: left;
+}
+
+.sidebar-heading-item {
+    color:#b7b9cc;
+    text-align: left;
+    padding: 0 1rem;
+    font-weight: 800;
+    font-size: 0.65rem;
 }

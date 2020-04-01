@@ -44,9 +44,7 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "order/item_create.html"
     model = Item
     form_class = ItemCreateForm
-
-    def get_success_url(self):
-        return reverse_lazy('order:item_detail', kwargs={'pk': self.kwargs['pk']})
+    success_url = reverse_lazy('order:item_list')
 
     def form_valid(self, form):
         item = form.save(commit=False)
@@ -93,3 +91,14 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, '商品詳細の更新に失敗しました。')
         return super().form_invalid(form)
+
+class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
+    '''商品削除機能'''
+    template_name = 'order/item_delete.html'    # 削除確認画面
+    model = Item
+    success_url = reverse_lazy('order:item_list')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, "商品を削除しました。")
+        return super().delete(request, *args, **kwargs)
+

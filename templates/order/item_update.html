@@ -18,8 +18,10 @@
             </div>
         </table>
         <hr>
-        <a class="btn btn-primary btn-user margin-left-10em margin-top-5px" href="{% url 'order:item_detail' object.pk %}">キャンセル</a>
-        <button class="btn btn-primary btn-user margin-left-5px margin-top-5px" type="submit">更新</button>
+        <div class="item-edit-button">
+            <a class="btn btn-primary btn-user" href="{% url 'order:item_detail' object.pk %}">キャンセル</a>
+            <button class="btn btn-primary btn-user ml-2" type="submit">更新</button>
+        </div>
     </form>
 
 {% endblock %}

@@ -8,7 +8,7 @@
 
 {% block contents %}
 
-    <h2>商品詳細</h2>
+    <div class="delete-check"><p>以下の商品をほんとうに削除しますか？</p><p>削除する場合は、ページ下部の削除ボタンをクリックしてください。</p></div>
     <div>
         {% if item.photo %}
             <img src="{{ item.photo.url }}"  class="item-photo" />
@@ -69,7 +69,10 @@
     </div>
     <hr>
     <div class="item-edit-button">
-        <a class="btn btn-primary btn-user" href="{% url 'order:item_update' object.pk %}">編集</a>
-        <a href="{% url 'order:item_delete' item.pk%}" class="btn btn-primary btn-user">削除</a>
+        <form method="post">
+            {% csrf_token %}
+            <a class="btn btn-primary" href="{% url 'order:item_detail' object.pk %}">キャンセル</a>
+            <button class="btn btn-primary ml-2" type="submit">削除</button>
+        </form>
     </div>
 {% endblock %}
