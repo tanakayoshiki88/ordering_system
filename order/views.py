@@ -8,7 +8,7 @@ from django.views import generic
 
 from .models import Item
 
-from .forms import ContactForm, ItemCreateForm
+from .forms import ContactForm, ItemCreateForm, ItemUpdateForm
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
     '''登録商品編集'''
     template_name = 'order/item_update.html'
     model = Item
-    form_class = ItemCreateForm
+    form_class = ItemUpdateForm
 
     def get_success_url(self):
         return reverse_lazy('order:item_detail', kwargs={'pk': self.kwargs['pk']})

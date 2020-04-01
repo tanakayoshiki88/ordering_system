@@ -28,7 +28,7 @@ class Item(models.Model):
     photo = models.ImageField(verbose_name='商品画像', blank=True, null=True)
     created_at = models.DateTimeField(verbose_name='作成日時', default=datetime.now)
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
-    is_active = models.BooleanField(verbose_name='有効フラグ', default=True)
+    is_active = models.BooleanField(verbose_name='販売可否', default=True)
 
     def __str__(self):
         return self.name

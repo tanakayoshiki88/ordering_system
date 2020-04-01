@@ -33,8 +33,14 @@
                 <td>{{ item.price }}</td>
             </tr>
             <tr>
-                <th>税込</th>
-                <td>{{ item.including_tax }}</td>
+                <th>税込／税抜</th>
+                <td>
+                    {% if item.including_tax %}
+                        <div>税込</div>
+                    {% else %}
+                        <div>税抜</div>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th>在庫数</th>
@@ -55,6 +61,16 @@
             <tr>
                 <th>カテゴリー３</th>
                 <td>{{ item.category3 }}</td>
+            </tr>
+            <tr>
+                <th>販売可否</th>
+                <td>
+                    {% if item.is_active %}
+                        <div>可</div>
+                    {% else %}
+                        <div>否</div>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <th>登録日時</th>
