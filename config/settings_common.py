@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -138,7 +137,13 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
-
+# ラッシュメッセージの見栄えを良くするため、BootstrapのAlertsと紐付ける
+MESSAGE_TAGS = {
+    messages.ERROR: 'alert alert-danger',
+    messages.WARNING: 'alert alert-warning',
+    messages.SUCCESS: 'alert alert-success',
+    messages.INFO: 'alert alert-info',
+}
 
 # django.allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
 SITE_ID = 1

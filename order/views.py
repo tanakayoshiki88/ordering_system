@@ -1,14 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 import logging
 
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views import generic
 
-from .models import Item
+from .models import Item, Order, FavoriteItem
 
-from .forms import ContactForm, ItemCreateForm, ItemUpdateForm
+from accounts.models import CustomUser
+
+from .forms import ContactForm, ItemCreateForm, ItemUpdateForm, OrderCreateForm, OrderCreateFormSet, FavoriteItemCreateForm
 
 logger = logging.getLogger(__name__)
 
@@ -30,13 +31,6 @@ class ContactView(generic.FormView):
         logger.info('contact send by {}'.format('name'))
 
         return super().form_valid(form)
-
-class OderCreateView(LoginRequiredMixin, generic.CreateView):
-    '''商品一覧 兼 注文画面'''
-    template_name = "order/oder_create.html"
-    model = Item
-
-
 
 
 class ItemCreateView(LoginRequiredMixin, generic.CreateView):
@@ -67,7 +61,7 @@ class ItemListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        items = Item.objects.filter(user=self.request.user).order_by('created_at')
+        items = Item.objects.filter(user=self.request.user).order_by('pk')
         return items
 
 class ItemDetailView(LoginRequiredMixin, generic.DetailView):
@@ -102,3 +96,65 @@ class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
         messages.success(self.request, "商品を削除しました。")
         return super().delete(request, *args, **kwargs)
 
+class OrderCreateView(generic.CreateView):
+    '''発注機能'''
+    template_name = 'order/order_item_list.html'
+    model = Order
+    form_class = OrderCreateForm
+    success_url = reverse_lazy('order:order_item_list')
+
+    def form_valid(self, form):
+        Order = form.save(commit=False)
+        Order.user = self.request.user
+        Order.save()
+
+        messages.success(self.request, '商品を登録しました。')
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, '商品の登録に失敗しました。お手数ですが、はじめから登録をやり直してください。')
+
+        return super().form_invalid(form)
+
+
+class OrderListView(generic.ListView):
+
+    template_name = 'order/order_item_list.html'
+    model = Item
+    form_class = OrderCreateForm
+    success_url = reverse_lazy('order:index')
+    paginate_by = 2
+
+    def get_queryset(self):
+        items = Item.objects.all().order_by('pk')
+        return items
+
+
+class FavariteItemCreateView(generic.CreateView):
+    template_name = 'order/favorite_item_create.html'
+    model = FavoriteItem
+    form_class = FavoriteItemCreateForm
+    success_url = reverse_lazy('order:index')
+
+    def get_form_kwargs(self, *args, **kwargs):
+        form_kwargs = super().get_form_kwargs(*args, **kwargs)
+        form_kwargs['initial'] = {'user': self.request.user, 'item': self.kwargs.get('pk')}  # フォームに初期値を設定する。
+        print(self.request)
+        print(self.args)
+        print(self.kwargs)
+        print(self.kwargs.get('pk'))
+        print(self.kwargs.get('name'))
+        print(form_kwargs)
+        return form_kwargs
+
+    def form_valid(self, form):
+        FavoriteItem = form.save(commit=False)
+        FavoriteItem.user = self.request.user
+        FavoriteItem.item = self.kwargs.get('pk')
+
+        FavoriteItem.save()
+
+        messages.success(self.request, '商品を登録しました。')
+
+        return super().form_valid(form)

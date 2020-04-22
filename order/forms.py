@@ -1,6 +1,8 @@
 from django import forms
 from django.core.mail import EmailMessage
-from .models import Item
+from .models import Item, Order, FavoriteItem
+from accounts.models import CustomUser
+from django.db.models import Avg, Max, Min, Sum
 
 
 # 問合せフォーム
@@ -38,7 +40,7 @@ class ContactForm(forms.Form):
         subject = self.cleaned_data['subject']
         message = self.cleaned_data['message']
 
-        subject = 'お問い合せ {}'.format('subject')
+        subject = 'お問い合せ {}'.format(subject)
         message = '送信者名： {0}\nメッセージ：\n{2}'.format(name, email, message)
         from_email = 'example@gmail.com'
         to_list = [
@@ -72,8 +74,14 @@ class ItemCreateForm(forms.ModelForm):
                     "category1",
                     "category2",
                     "category3",
+                    "is_active",
                     "photo"
         )
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            for field in self.fields.values():
+                field.widget.attrs['class'] = 'form-control form-control-user'
 
 
 '''    name = forms.CharField(label='商品名', max_length=40, required=True)
@@ -179,3 +187,41 @@ class ItemUpdateForm(forms.ModelForm):
         self.fields['photo'].widget.attrs['class'] = 'form-control form-control-user'
         self.fields['photo'].widget.attrs['placeholder'] = 'Photo'
 '''
+
+class OrderCreateForm(forms.ModelForm):
+    # 発注フォーム
+    class Meta:
+        model = Order
+        fields = (
+            "item",
+            "quantity",
+            "remarks"
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        item_pk = Item.objects.values('pk').order_by('pk')
+        i = 0
+
+        for field in self.fields.values():
+            field.widget.attrs['class'] = "form-control form-control-user"
+            field.widget.attrs['rows'] = "1rem"
+            field.widget.attrs['id'] = "id_item"
+            field.widget.attrs['value'] = item_pk[i]['pk']
+            i += 1
+
+
+# OderCreateFormのモデルフォームセット
+OrderCreateFormSet = forms.modelformset_factory(
+    Order, form=OrderCreateForm, extra=Item.objects.all().count()
+)
+
+
+class FavoriteItemCreateForm(forms.ModelForm):
+    # 発注商品リスト登録
+    class Meta:
+        model = FavoriteItem
+        fields = (
+            "user",
+            "item"
+        )

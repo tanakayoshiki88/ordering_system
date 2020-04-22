@@ -12,4 +12,7 @@ urlpatterns = [
     path('item-detail/<int:pk>/', views.ItemDetailView.as_view(), name="item_detail"),
     path('item-update/<int:pk>/', views.ItemUpdateView.as_view(), name="item_update"),
     path('item-delete/<int:pk>/', views.ItemDeleteView.as_view(), name="item_delete"),
+    path('order/order-item-list/', views.OrderListView.as_view(), name="order_item_list"),
+    path('order/favorite-item-create/<int:pk>/<str:name>/', views.FavariteItemCreateView.as_view(), name="favorite_item_create"),
 ]
+

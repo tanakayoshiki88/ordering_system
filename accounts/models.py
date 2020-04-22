@@ -3,9 +3,11 @@ from django.db import models
 from datetime import datetime
 
 
+
 class CustomUser(AbstractUser):
     '''拡張ユーザーモデル'''
     class Meta:
+        app_label = 'accounts'
         db_table = 'custom_user'
         verbose_name_plural = 'CustomUser'
 

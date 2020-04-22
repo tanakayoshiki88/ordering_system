@@ -17,6 +17,10 @@
     padding-bottom: 15rem;
 }
 
+.margin-0-auto {
+    margin: 0 auto;
+}
+
 .margin-left-17em {
     margin-left: 17em;
 }
@@ -55,6 +59,10 @@
     text-align: right;
 }
 
+.text-align-left {
+    text-align: left;
+}
+
 .item-photo {
     border: 1px solid;
     width: 50%;
@@ -87,4 +95,15 @@
     padding: 0 1rem;
     font-weight: 800;
     font-size: 0.65rem;
+}
+
+.messages {
+    margin: 0 auto;
+    text-align: left;
+    list-style: none;
+}
+
+.width100-height20 {
+    width: 120px;
+    height: 2em;
 }

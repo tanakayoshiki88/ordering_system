@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}X-order{% endblock %}
+{% block title %}商品詳細{% endblock %}
 
 {% block content_title %}X-order{% endblock %}
 
@@ -85,7 +85,11 @@
     </div>
     <hr>
     <div class="item-edit-button">
-        <a class="btn btn-primary btn-user" href="{% url 'order:item_update' object.pk %}">編集</a>
+        {% if user.is_authenticated and user == item.user %}
+            <a class="btn btn-primary btn-user" href="{% url 'order:item_update' object.pk %}">編集</a>
+        {% else %}
+            <a class="btn btn-primary btn-user" href="{% url 'order:favorite_item_create' item.pk item.name %}">お気に入り登録</a>
+        {% endif %}
         <a href="{% url 'order:item_delete' item.pk%}" class="btn btn-primary btn-user">削除</a>
     </div>
 {% endblock %}

@@ -50,8 +50,24 @@ class Order(models.Model):
     delivery_date = models.DateTimeField(verbose_name='納品日', blank=True, null=True)
     shipment_date = models.DateTimeField(verbose_name='発送日', blank=True, null=True)
     is_cancel = models.BooleanField(verbose_name='キャンセル', default=False)
-    remarks = models.TextField(verbose_name='備考', max_length=400)
+    remarks = models.TextField(verbose_name='備考', max_length=150, blank=True, null=True)
     updated_at = models.DateTimeField(verbose_name='更新日', auto_now=True)
 
-    def __str__(self):
-        return self.id
+class FavoriteItem(models.Model):
+    '''発注商品リスト'''
+    class Meta:
+        # テーブル名
+        db_table = 'favorite_item'
+        # django 管理画面の表示、名前末尾に s は表示されない
+        verbose_name_plural = '発注商品リスト'
+
+    # カラム定義
+    user = models.ForeignKey(CustomUser, verbose_name='ユーザー', on_delete=models.PROTECT)
+    item = models.ForeignKey(Item, verbose_name='商品', on_delete=models.PROTECT)
+    quantity = models.IntegerField(verbose_name='数量')
+    order_date = models.DateTimeField(verbose_name='注文日', default=datetime.now)
+    delivery_date = models.DateTimeField(verbose_name='納品日', blank=True, null=True)
+    shipment_date = models.DateTimeField(verbose_name='発送日', blank=True, null=True)
+    is_cancel = models.BooleanField(verbose_name='キャンセル', default=False)
+    remarks = models.TextField(verbose_name='備考', max_length=150, blank=True, null=True)
+    updated_at = models.DateTimeField(verbose_name='更新日', auto_now=True)
