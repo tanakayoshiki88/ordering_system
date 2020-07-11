@@ -21,8 +21,10 @@ from . import settings_common, settings_dev
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('order.urls')),
     path('accounts/', include('allauth.urls')),
+    path('item/', include('item.urls')),
+    path('', include('order.urls')),
+    path('cart/', include('cart.urls')),
 ]
 
 # 開発サーバーでメディアファイルを配信するための設定

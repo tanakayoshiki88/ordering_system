@@ -71,7 +71,7 @@
     <div class="item-edit-button">
         <form method="post">
             {% csrf_token %}
-            <a class="btn btn-primary" href="{% url 'order:item_detail' object.pk %}">キャンセル</a>
+            <a class="btn btn-primary" href="{% url 'item:item_detail' object.pk %}">キャンセル</a>
             <button class="btn btn-primary ml-2" type="submit">削除</button>
         </form>
     </div>

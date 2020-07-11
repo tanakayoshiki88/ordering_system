@@ -1,6 +1,7 @@
 from django import forms
 from django.core.mail import EmailMessage
-from .models import Item, Order, FavoriteItem
+from order.models import Order
+from item.models import Item
 from accounts.models import CustomUser
 from django.db.models import Avg, Max, Min, Sum
 
@@ -212,6 +213,7 @@ class OrderCreateForm(forms.ModelForm):
 
 
 # OderCreateFormのモデルフォームセット
+'''
 OrderCreateFormSet = forms.modelformset_factory(
     Order, form=OrderCreateForm, extra=Item.objects.all().count()
 )
@@ -221,7 +223,4 @@ class FavoriteItemCreateForm(forms.ModelForm):
     # 発注商品リスト登録
     class Meta:
         model = FavoriteItem
-        fields = (
-            "user",
-            "item"
-        )
+'''

@@ -84,12 +84,19 @@
     </table>
     </div>
     <hr>
+    <div class="add-cart-button">
+        {% if user.is_authenticated and user == item.user %}
+
+        {% else %}
+            <a class="btn btn-secondary" href="{% url 'cart:add_cart' item.id %}">カートに追加</a>
+        {% endif %}
+    </div>
     <div class="item-edit-button">
         {% if user.is_authenticated and user == item.user %}
-            <a class="btn btn-primary btn-user" href="{% url 'order:item_update' object.pk %}">編集</a>
+            <a class="btn btn-primary btn-user" href="{% url 'item:item_update' object.pk %}">編集</a>
+            <a href="{% url 'item:item_delete' item.pk%}" class="btn btn-primary btn-user">削除</a>
         {% else %}
-            <a class="btn btn-primary btn-user" href="{% url 'order:favorite_item_create' item.pk item.name %}">お気に入り登録</a>
+            
         {% endif %}
-        <a href="{% url 'order:item_delete' item.pk%}" class="btn btn-primary btn-user">削除</a>
     </div>
 {% endblock %}

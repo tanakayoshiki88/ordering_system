@@ -34,13 +34,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
+    'item.apps.ItemConfig',
     'order.apps.OrderConfig',
+    'cart.apps.CartConfig',
+
     'accounts.apps.AccountsConfig',
 
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
+
 ]
 
 MIDDLEWARE = [
@@ -58,7 +62,11 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth')],
+        'DIRS': [
+                 os.path.join(BASE_DIR, 'templates'),
+                 os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth'),
+                 os.path.join(BASE_DIR, 'templates', 'cart')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.item_counter',
             ],
         },
     },

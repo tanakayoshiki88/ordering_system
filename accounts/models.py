@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
 
 
     def get_full_name(self):
-        """戻り地として last_name と first_name を間にスペースを挟んだ文字列 full_name を返すメソッド"""
+        """戻り地として last_name と first_name の間にスペースを挟んだ文字列 full_name を返すメソッド"""
         full_name = '%s %s' % (self.last_name, self.first_name)
         return full_name.strip()
 
