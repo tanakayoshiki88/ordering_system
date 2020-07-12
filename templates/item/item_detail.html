@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}商品詳細{% endblock %}
+
+{% block content_title %}X-order{% endblock %}
+
+{% block contents %}
+
+    <h2>商品詳細</h2>
+    <div>
+        {% if item.photo %}
+            <img src="{{ item.photo.url }}"  class="item-photo" />
+        {% else %}
+            <p class="No-image">No image</p>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="margin-top-5px">
+    <table class="table-bordered" id="dataTable">
+        <tbody>
+            <tr>
+                <th>id</th>
+                <td>{{ item.pk }}</td>
+            </tr>
+            <tr>
+                <th>商品名</th>
+                <td>{{ item.name }}</td>
+            </tr>
+            <tr>
+                <th>価格</th>
+                <td>{{ item.price }}</td>
+            </tr>
+            <tr>
+                <th>税込／税抜</th>
+                <td>
+                    {% if item.including_tax %}
+                        <div>税込</div>
+                    {% else %}
+                        <div>税抜</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>在庫数</th>
+                <td>{{ item.stock }}{{ item.unit }}</td>
+            </tr>
+            <tr>
+                <th>最低発注数量／最小発注単位</th>
+                <td>{{ item.moq }}／{{ item.spq }}</td>
+            </tr>
+            <tr>
+                <th>カテゴリー１</th>
+                <td>{{ item.category1 }}</td>
+            </tr>
+            <tr>
+                <th>カテゴリー２</th>
+                <td>{{ item.category2 }}</td>
+            </tr>
+            <tr>
+                <th>カテゴリー３</th>
+                <td>{{ item.category3 }}</td>
+            </tr>
+            <tr>
+                <th>販売可否</th>
+                <td>
+                    {% if item.is_active %}
+                        <div>可</div>
+                    {% else %}
+                        <div>否</div>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>登録日時</th>
+                <td>{{ item.created_at }}</td>
+            </tr>
+            <tr>
+                <th>最終更新日</th>
+                <td>{{ item.updated_at }}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <hr>
+    <div class="add-cart-button">
+        {% if user.is_authenticated and user == item.user %}
+
+        {% else %}
+            <a class="btn btn-secondary" href="{% url 'cart:add_cart' item.id %}">カートに追加</a>
+        {% endif %}
+    </div>
+    <div class="item-edit-button">
+        {% if user.is_authenticated and user == item.user %}
+            <a class="btn btn-primary btn-user" href="{% url 'item:item_update' object.pk %}">編集</a>
+            <a href="{% url 'item:item_delete' item.pk%}" class="btn btn-primary btn-user">削除</a>
+        {% else %}
+            
+        {% endif %}
+    </div>
+{% endblock %}

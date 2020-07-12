@@ -1,0 +1,113 @@
+#id_message {
+    border-radius: 2em;
+    padding: 1.3em;
+}
+
+.send_message {
+    padding: 3em 0em;
+    font-size: 25px;
+    color: #333333;
+}
+
+#mysitle-form {
+
+}
+
+.padding-bottom-15em {
+    padding-bottom: 15rem;
+}
+
+.margin-0-auto {
+    margin: 0 auto;
+}
+
+.margin-left-17em {
+    margin-left: 17em;
+}
+
+.margin-left-5em {
+    margin-left: 5em;
+}
+
+.margin-left-10em {
+    margin-left: 10em;
+}
+
+.margin-top-5px {
+    margin-top: 5px;
+}
+
+.margin-top-1rem {
+    margin-top: 1rem;
+}
+
+.margin-left-5px {
+    margin-left: 5px;
+}
+
+.margin-bottom-3 {
+    margin-bottom: 3rem;
+}
+
+.form_table {
+    font-size: 25px;
+    color: #333333;
+    padding: 300px;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.item-photo {
+    border: 1px solid;
+    width: 100%;
+    height: 100%;
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.No-image {
+    border: 1px solid;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.item-edit-button {
+    text-align: right;
+}
+
+.add-cart-button {
+    text-align: right;
+}
+
+.hr-item-create-update {
+    width: 50%;
+    text-align: left;
+}
+
+.sidebar-heading-item {
+    color:#b7b9cc;
+    text-align: left;
+    padding: 0 1rem;
+    font-weight: 800;
+    font-size: 0.65rem;
+}
+
+.messages {
+    margin: 0 auto;
+    text-align: left;
+    list-style: none;
+}
+
+.width100-height20 {
+    width: 120px;
+    height: 2em;
+}

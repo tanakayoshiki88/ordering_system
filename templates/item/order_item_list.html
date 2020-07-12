@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}X-order{% endblock %}
+
+{% block content_title %}X-order{% endblock %}
+
+{% block contents %}
+
+    <h1>商品リスト</h1>
+     <table class="table table-bordered" id="dataTable">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>商品画像</th>
+          <th>商品名</th>
+          <th>価格</th>
+          <th>税込</th>
+          <th>在庫数</th>
+          <th>商品詳細</th>
+          <th>お気に入り登録</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in object_list %}
+          <tr>
+            <td>{{ item.pk }}</td>
+            <td>
+              {% if item.photo %}
+                <img src="{{ item.photo.url }}" class="item-photo"/></td>
+              {% else %}
+                <p class="No-image">No image</p>
+              {% endif %}
+            <td>{{ item.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.including_tax }}</td>
+            <td>{{ item.stock }}{{ item.unit }}</td>
+            <td><a href="{% url 'item:item_detail' item.pk%}"><i class="fas fa-info-circle fa-lg"></i></a></td>
+            <td></td>
+          </tr>
+        {% empty %}
+          <p>まだ商品が登録されておりません。</p>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- ページネーション処理 -->
+    {% if is_paginated %}
+      <ul class="pagination">
+        <!-- 前ページへのリンク -->
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+              <span>&laquo;</span>
+            </a>
+          </li>
+        {% endif %}
+
+        <!-- ページ数表示 -->
+        {% for page_num in page_obj.paginator.page_range %}
+          {% if page_obj.number == page_num %}
+            <li class="page-item" active><a class="page-link" href="#">{{ page_num }}</a></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        <!-- 次ページへのリンク -->
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+              <span>&raquo;</span>
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}X-order{% endblock %}
+
+{% block content_title %}X-order{% endblock %}
+
+{% block contents %}
+
+    <h1>商品登録情報更新</h1>
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            <div class="form-table">
+                {{ form.as_table }}
+            </div>
+        </table>
+        <hr>
+        <div class="item-edit-button">
+            <a class="btn btn-primary btn-user" href="{% url 'item:item_detail' object.pk %}">キャンセル</a>
+            <button class="btn btn-primary btn-user ml-2" type="submit">更新</button>
+        </div>
+    </form>
+
+{% endblock %}
