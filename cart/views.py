@@ -37,7 +37,7 @@ def add_cart(request, item_id):
 def cart_detail(request, total=0, counter=0, cart_items=None):
     try:
         cart = Cart.objects.get(cart_id=get_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True).order_by('-pk')
         for cart_item in cart_items:
             total += (cart_item.item.price * cart_item.quantity)
             counter += cart_item.quantity
