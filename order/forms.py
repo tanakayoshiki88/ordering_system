@@ -1,9 +1,7 @@
 from django import forms
 from django.core.mail import EmailMessage
-from order.models import Order
 from item.models import Item
-from accounts.models import CustomUser
-from django.db.models import Avg, Max, Min, Sum
+from .models import Order
 
 
 # 問合せフォーム
@@ -56,171 +54,18 @@ class ContactForm(forms.Form):
         message.send()
 
 
-'''class OderForm(forms.Form):
-    quantity = forms.IntegerField(label='',)
-    delivery_date = forms.DateTimeField(label='')
-'''
-class ItemCreateForm(forms.ModelForm):
-    # 商品登録フォーム
-    class Meta:
-        model = Item
-        fields = (
-                    "name",
-                    "price",
-                    "including_tax",
-                    "unit",
-                    "stock",
-                    "moq",
-                    "spq",
-                    "category1",
-                    "category2",
-                    "category3",
-                    "is_active",
-                    "photo"
-        )
-
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            for field in self.fields.values():
-                field.widget.attrs['class'] = 'form-control form-control-user'
-
-
-'''    name = forms.CharField(label='商品名', max_length=40, required=True)
-    price = forms.IntegerField(label='単価', required=True)
-    including_tax = forms.BooleanField(label='税込', required=True)
-    unit = forms.CharField(label='単位', max_length=10)
-    stock = forms.IntegerField(label='在庫数')
-    category1 = forms.CharField(label='カテゴリ1', max_length=30)
-    category2 = forms.CharField(label='カテゴリ2', max_length=30)
-    category3 = forms.CharField(label='カテゴリ3', max_length=30)
-    photo = forms.ImageField(label='商品画像')
-
+# オーダー編集フォーム
+class OrderUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
 
-        self.fields['name'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['name'].widget.attrs['placeholder'] = 'Item Name'
-
-        self.fields['price'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['price'].widget.attrs['placeholder'] = 'Price'
-
-        self.fields['including_tax'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['including_tax'].widget.attrs['placeholder'] = 'Tax'
-
-        self.fields['unit'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['unit'].widget.attrs['placeholder'] = 'Unit'
-
-        self.fields['stock'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['stock'].widget.attrs['placeholder'] = 'Stock'
-
-        self.fields['category1'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['category1'].widget.attrs['placeholder'] = 'Category1'
-
-        self.fields['category2'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['category2'].widget.attrs['placeholder'] = 'Category2'
-
-        self.fields['category3'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['category3'].widget.attrs['placeholder'] = 'Category3'
-
-        self.fields['photo'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['photo'].widget.attrs['placeholder'] = 'Photo'
-'''
-
-class ItemUpdateForm(forms.ModelForm):
-    # 商品登録フォーム
-    class Meta:
-        model = Item
-        fields = (
-                    "name",
-                    "price",
-                    "including_tax",
-                    "unit",
-                    "stock",
-                    "moq",
-                    "spq",
-                    "category1",
-                    "category2",
-                    "category3",
-                    "is_active",
-                    "photo"
-        )
-
-
-'''    name = forms.CharField(label='商品名', max_length=40, required=True)
-    price = forms.IntegerField(label='単価', required=True)
-    including_tax = forms.BooleanField(label='税込', required=True)
-    unit = forms.CharField(label='単位', max_length=10)
-    stock = forms.IntegerField(label='在庫数')
-    category1 = forms.CharField(label='カテゴリ1', max_length=30)
-    category2 = forms.CharField(label='カテゴリ2', max_length=30)
-    category3 = forms.CharField(label='カテゴリ3', max_length=30)
-    photo = forms.ImageField(label='商品画像')
-
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['name'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['name'].widget.attrs['placeholder'] = 'Item Name'
-
-        self.fields['price'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['price'].widget.attrs['placeholder'] = 'Price'
-
-        self.fields['including_tax'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['including_tax'].widget.attrs['placeholder'] = 'Tax'
-
-        self.fields['unit'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['unit'].widget.attrs['placeholder'] = 'Unit'
-
-        self.fields['stock'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['stock'].widget.attrs['placeholder'] = 'Stock'
-
-        self.fields['category1'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['category1'].widget.attrs['placeholder'] = 'Category1'
-
-        self.fields['category2'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['category2'].widget.attrs['placeholder'] = 'Category2'
-
-        self.fields['category3'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['category3'].widget.attrs['placeholder'] = 'Category3'
-
-        self.fields['photo'].widget.attrs['class'] = 'form-control form-control-user'
-        self.fields['photo'].widget.attrs['placeholder'] = 'Photo'
-'''
-
-class OrderCreateForm(forms.ModelForm):
-    # 発注フォーム
     class Meta:
         model = Order
-        fields = (
-            "item",
-            "quantity",
-            "remarks"
-        )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        item_pk = Item.objects.values('pk').order_by('pk')
-        i = 0
-
-        for field in self.fields.values():
-            field.widget.attrs['class'] = "form-control form-control-user"
-            field.widget.attrs['rows'] = "1rem"
-            field.widget.attrs['id'] = "id_item"
-            field.widget.attrs['value'] = item_pk[i]['pk']
-            i += 1
+        fields = '__all__'
 
 
-# OderCreateFormのモデルフォームセット
-'''
-OrderCreateFormSet = forms.modelformset_factory(
-    Order, form=OrderCreateForm, extra=Item.objects.all().count()
-)
-
-
-class FavoriteItemCreateForm(forms.ModelForm):
-    # 発注商品リスト登録
-    class Meta:
-        model = FavoriteItem
-'''
+# オーダー編集フォームセット
+OrderUpdateFormSetBySeller = forms.modelformset_factory(Order, fields=('id', 'is_active',), form=OrderUpdateForm, extra=0)
