@@ -69,6 +69,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="{% url 'item:item_list' %}">登録商品一覧</a>
             <a class="collapse-item" href="{% url 'item:item_create' %}">販売商品登録</a>
+            <a class="collapse-item" href="{% url 'order:received_order_list' %}">受注一覧</a>
           </div>
         </div>
       </li>
@@ -83,9 +84,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
             <a class="collapse-item" href="{% url 'item:order_item_list' %}">商品一覧</a>
-            <a class="collapse-item" href="utilities-border.html">発注履歴一覧</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <a class="collapse-item" href="{% url 'order:placed_order_list' %}">発注履歴一覧</a>
           </div>
         </div>
       </li>
@@ -112,7 +111,6 @@
             <a class="collapse-item" href="{% url 'account_reset_password' %}">Forgot Password</a>
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
             <a class="collapse-item" href="{% url 'order:contact' %}">お問合せ</a>
           </div>
         </div>
@@ -353,6 +351,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">{% block content_title %}{% endblock %} :</h1>
+            <p>{{ message }}</p>
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 

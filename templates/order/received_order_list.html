@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}X-order{% endblock %}
+
+{% block content_title %}X-order{% endblock %}
+
+{% block contents %}
+<table class="table table-bordered" id="dataTable">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>納品</th>
+        <th>購入者</th>
+        <th>商品画像</th>
+        <th>商品名</th>
+        <th>単価</th>
+        <th>税込</th>
+        <th>数量</th>
+        <th>合計額</th>
+        <th>発注日</th>
+    </tr>
+    </thead>
+    <tbody>
+    <form method="POST">
+    {% for form in formset %}
+        {% for order_item in order_list %}
+        {% if order_item.id == form.initial.id %}
+        {{ form.id }}
+        <tr>
+            <td>{{ order_item.id }}</td>
+            <td>
+                {% if form.initial.is_active == True %}
+                <p>未納</p>
+                    {{ form.is_active }}
+                    {{ form.is_active.errors }}
+                {% else %}
+                <p>納品済</p>
+                    {{ form.is_active }}
+                    {{ form.is_active.errors }}
+                {% endif %}
+            </td>
+            <td>
+                {{ order_item.buyer }}
+            </td>
+            <td>
+                {% if order_item.photo %}
+                <img src="{{ order_item.photo.url }}" class="item-photo"/>
+                {% else %}
+                <p class="No-image">No image</p>
+                {% endif %}
+            </td>
+            <td>{{ order_item.name }}</td>
+            <td>{{ order_item.price }}</td>
+            <td>
+                {% if order_item.including_tax == False %}
+                <p>税抜き</p>
+                {% else %}
+                <p>税込</p>
+                {% endif %}
+            </td>
+            <td>{{ order_item.quantity }}{{ order_item.unit }}</td>
+            <td>{{ order_item.total_price }}</td>
+            <td>{{ order_item.order_date }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    {% empty %}
+    <p>まだ受注は、ありません。</p>
+    {% endfor %}
+    </tbody>
+</table>
+    {{ formset.management_form }}
+    {% csrf_token %}
+<hr>
+<div class="order-edit-button">
+    <button class="btn btn-primary btn-user ml-2" type="submit">更新</button>
+</div>
+</form>
+
+<!-- ページネーション処理 -->
+{% if is_paginated %}
+<ul class="pagination">
+    <!-- 前ページへのリンク -->
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+            <span>&laquo;</span>
+        </a>
+    </li>
+    {% endif %}
+
+    <!-- ページ数表示 -->
+    {% for page_num in page_obj.paginator.page_range %}
+    {% if page_obj.number == page_num %}
+    <li class="page-item" active><a class="page-link" href="#">{{ page_num }}</a></li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+    {% endif %}
+    {% endfor %}
+
+    <!-- 次ページへのリンク -->
+    {% if page_obj.has_next %}
+    <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+            <span>&raquo;</span>
+        </a>
+    </li>
+    {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}

@@ -13,33 +13,35 @@
           <th>id</th>
           <th>商品画像</th>
           <th>商品名</th>
-          <th>価格</th>
+          <th>単価</th>
           <th>税込</th>
-          <th>在庫数</th>
+          <th>数量</th>
+          <th>合計額</th>
+          <th>発注日</th>
           <th>商品詳細</th>
-          <th>編集</th>
         </tr>
       </thead>
       <tbody>
-        {% for item in object_list %}
+        {% for order_item in object_list %}
           <tr>
-            <td>{{ item.pk }}</td>
+            <td>{{ order_item.pk }}</td>
             <td>
-              {% if item.photo %}
-                <a href="{{ item.get_absolute_url }}"><img src="{{ item.photo.url }}" class="item-photo"/></a>
+              {% if order_item.photo %}
+                <a href="{{ order_item.get_absolute_url }}"><img src="{{ order_item.photo.url }}" class="item-photo"/></a>
               {% else %}
-                <a href="{{ item.get_absolute_url }}"><p class="No-image">No image</p></a>
+                <a href="{{ order_item.get_absolute_url }}"><p class="No-image">No image</p></a>
               {% endif %}
             </td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.price }}</td>
-            <td>{{ item.including_tax }}</td>
-            <td>{{ item.stock }}{{ item.unit }}</td>
-            <td><a href="{% url 'item:item_detail' item.pk %}"><i class="fas fa-info-circle fa-lg"></i></a></td>
-            <td><a href="{% url 'item:item_update' item.pk %}"><i class="fas fa-edit fa-lg"></i></a></td>
+            <td>{{ order_item.name }}</td>
+            <td>{{ order_item.price }}</td>
+            <td>{{ order_item.including_tax }}</td>
+            <td>{{ order_item.quantity }}{{ order_item.unit }}</td>
+            <td>{{ order_item.total_price }}</td>
+            <td>{{ order_item.order_date }}</td>
+            <td><a href="{% url 'item:item_detail' order_item.item_id %}"><i class="fas fa-info-circle fa-lg"></i></a></td>
           </tr>
         {% empty %}
-          <p>まだ商品が登録されておりません。</p>
+          <p>まだ発注は、されておりません。</p>
         {% endfor %}
       </tbody>
     </table>

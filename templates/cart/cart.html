@@ -19,7 +19,7 @@
             <h1 class="text center my_title">Your shopping cart is empty</h1>
             <br>
             <p class="text-center">
-                Please click <a href="{% url 'item:item_list' %}">here</a> to continue shopping.
+                Please click <a href="{% url 'item:order_item_list' %}">here</a> to continue shopping.
             </p>
           </div>
         </div>
@@ -48,7 +48,7 @@
                         <tr>
                             <td>
                                 {% if cart_item.item.photo %}
-                                    <a href="{{ cart_item.get_absolute_url }}"><img src="{{cart_item.item.photo.url}}" alt="" class="float-left item-photo"></a>
+                                    <a href="{{ cart_item.get_absolute_url }}"><img src="{{cart_item.item.photo.url}}" alt="" class="float-center item-photo"></a>
                                 {% else %}
                                     <a href="{{ cart_item.get_absolute_url }}"><p class="No-image">No image</p></a>
                                 {% endif %}
@@ -56,11 +56,11 @@
                             <td class="text-left">
                                 {{cart_item.item.name}}
                                 <br>
-                                SKU: {{cart_item.item.id}}
+                                商品ID: {{cart_item.item.id}}
                                 <br>
-                                Unit Price: ￥{{cart_item.item.price}}
+                                単価: ￥{{cart_item.item.price}}
                                 <br>
-                                Qty: {{cart_item.quantity}} x ￥{{cart_item.item.price}}
+                                数量: {{cart_item.quantity}} x ￥{{cart_item.item.price}}
                             </td>
                             <td>
                                 ￥{{cart_item.sub_total}}
@@ -120,7 +120,10 @@
                   </tbody>
                 </table>
                 <div class="mx-auto">
-                    <a href="{% url 'item:order_item_list' %}" class="btn-secondary btn-block my_custom_button">Continue Shopping</a>
+                    <a href="{% url 'order:order_create' %}" class="btn-primary btn-block">発注する</a>
+                </div>
+                <div class="mx-auto">
+                    <a href="{% url 'item:order_item_list' %}" class="btn-secondary btn-block margin-top-5px">ショッピングを続ける</a>
                 </div>
             </div>
         </div>

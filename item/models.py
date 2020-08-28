@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class Item(models.Model):
-    '''商品モデル'''
+    """商品モデル"""
     class Meta:
         app_label = 'item'
         # テーブル名
@@ -14,8 +14,8 @@ class Item(models.Model):
         verbose_name_plural = '商品'
 
     # カラム定義
-    user = models.ForeignKey(CustomUser, verbose_name='ユーザー', on_delete=models.PROTECT)
-    name = models.CharField(verbose_name='商品名', max_length=40, unique=True)
+    user = models.ForeignKey(CustomUser, verbose_name='販売者', on_delete=models.PROTECT)
+    name = models.CharField(verbose_name='商品名', max_length=40)
     price = models.IntegerField(verbose_name='単価', default=0)
     including_tax = models.BooleanField(verbose_name='税込', default=False)
     unit = models.CharField(verbose_name='単位', max_length=10, default='個')
@@ -34,5 +34,4 @@ class Item(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("item:item_list")
-
+        return reverse("item:item_detail", kwargs={'pk': self.pk})

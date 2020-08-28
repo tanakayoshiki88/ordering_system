@@ -3,8 +3,12 @@ from item.models import Item
 from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 
+import math
 
-def get_cart_id(request):
+__tax_rate__ = 1.1
+
+
+def __get_cart_id(request):
     cart_id = request.session.session_key
     if not cart_id:
         cart_id = request.session.create()
@@ -14,10 +18,10 @@ def get_cart_id(request):
 def add_cart(request, item_id):
     item = Item.objects.get(id=item_id)
     try:
-        cart = Cart.objects.get(cart_id=get_cart_id(request))
+        cart = Cart.objects.get(cart_id=__get_cart_id(request))
     except Cart.DoesNotExist:
         cart = Cart.objects.create(
-                cart_id=get_cart_id(request)
+                cart_id=__get_cart_id(request)
             )
         cart.save()
     try:
@@ -36,19 +40,22 @@ def add_cart(request, item_id):
 
 def cart_detail(request, total=0, counter=0, cart_items=None):
     try:
-        cart = Cart.objects.get(cart_id=get_cart_id(request))
+        cart = Cart.objects.get(cart_id=__get_cart_id(request))
         cart_items = CartItem.objects.filter(cart=cart, is_active=True).order_by('-pk')
         for cart_item in cart_items:
-            total += (cart_item.item.price * cart_item.quantity)
-            counter += cart_item.quantity
+            if cart_item.item.including_tax:
+                total += math.floor(cart_item.item.price * cart_item.quantity)
+                counter += cart_item.quantity
+            else:
+                total += math.floor(cart_item.item.price * cart_item.quantity * __tax_rate__)
+                counter += cart_item.quantity
     except ObjectDoesNotExist:
         pass
-
     return render(request, 'cart.html', dict(cart_items=cart_items, total=total, counter=counter))
 
 
 def reduce_quantity(request, item_id):
-    cart = Cart.objects.get(cart_id=get_cart_id(request))
+    cart = Cart.objects.get(cart_id=__get_cart_id(request))
     item = get_object_or_404(Item, id=item_id)
     cart_item = CartItem.objects.get(item=item, cart=cart)
     if cart_item.quantity > 1:
@@ -60,7 +67,7 @@ def reduce_quantity(request, item_id):
 
 
 def cart_item_remove(request, item_id):
-    cart = Cart.objects.get(cart_id=get_cart_id(request))
+    cart = Cart.objects.get(cart_id=__get_cart_id(request))
     item = get_object_or_404(Item, id=item_id)
     cart_item = CartItem.objects.get(item=item, cart=cart)
     cart_item.delete()

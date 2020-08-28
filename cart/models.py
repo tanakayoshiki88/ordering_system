@@ -5,7 +5,7 @@ from django.urls import reverse
 
 
 class Cart(models.Model):
-    '''カートモデル'''
+    """カートモデル"""
     class Meta:
         # アプリケーション名
         app_label = 'cart'
@@ -24,7 +24,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    '''カートアイテムモデル'''
+    """カートアイテムモデル"""
     class Meta:
         # アプリケーション名
         app_label = 'cart'
@@ -42,7 +42,7 @@ class CartItem(models.Model):
         return self.item.price * self.quantity
 
     def __str__(self):
-        return self.item
+        return self.cart.cart_id
 
     def get_absolute_url(self):
         return reverse("item:item_detail", kwargs={'pk': self.item.pk})

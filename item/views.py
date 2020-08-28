@@ -7,15 +7,13 @@ from django.views import generic
 
 from item.models import Item
 
-from accounts.models import CustomUser
-
 from .forms import ItemCreateForm, ItemUpdateForm
 
 logger = logging.getLogger(__name__)
 
 
 class ItemCreateView(LoginRequiredMixin, generic.CreateView):
-    '''商品登録機能'''
+    """商品登録機能"""
     template_name = "item/item_create.html"
     model = Item
     form_class = ItemCreateForm
@@ -35,8 +33,9 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
 
         return super().form_invalid(form)
 
+
 class ItemListView(LoginRequiredMixin, generic.ListView):
-    '''商品リストを表示'''
+    """商品リストを表示"""
     template_name = 'item/item_list.html'
     model = Item
     paginate_by = 3
@@ -45,13 +44,15 @@ class ItemListView(LoginRequiredMixin, generic.ListView):
         items = Item.objects.filter(user=self.request.user).order_by('pk')
         return items
 
+
 class ItemDetailView(LoginRequiredMixin, generic.DetailView):
-    '''登録商品詳細表示'''
+    """登録商品詳細表示"""
     template_name = 'item/item_detail.html'
     model = Item
 
+
 class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
-    '''登録商品編集'''
+    """登録商品編集"""
     template_name = 'item/item_update.html'
     model = Item
     form_class = ItemUpdateForm
@@ -60,6 +61,7 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
         return reverse_lazy('item:item_detail', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
+        print(form)
         messages.success(self.request, '商品詳細を更新しました。')
         return super().form_valid(form)
 
@@ -67,8 +69,9 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
         messages.error(self.request, '商品詳細の更新に失敗しました。')
         return super().form_invalid(form)
 
+
 class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
-    '''商品削除機能'''
+    """商品削除機能"""
     template_name = 'item/item_delete.html'    # 削除確認画面
     model = Item
     success_url = reverse_lazy('item:item_list')
@@ -78,16 +81,13 @@ class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class OrderListView(LoginRequiredMixin, generic.ListView):
+class OrderItemListView(LoginRequiredMixin, generic.ListView):
 
     template_name = 'item/order_item_list.html'
     model = Item
-    #form_class = OrderCreateForm
     success_url = reverse_lazy('order:index')
     paginate_by = 2
 
     def get_queryset(self):
-        print(self.request.user)
         items = Item.objects.all().exclude(user=self.request.user).order_by('pk')
         return items
-
