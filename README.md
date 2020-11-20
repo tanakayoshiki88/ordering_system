@@ -1,6 +1,6 @@
-#ordering_system
+# ordering_system
 
-#Requirement
+## Requirement
 
 python3
 django
@@ -10,7 +10,7 @@ postgresql
 psycopg2-binary
 
 
-##Installation
+## Installation
 
 1. $ brew install python
 
@@ -67,14 +67,12 @@ psycopg2-binary
 13. sidebar > Pages > Sign up
 
     input: email, password > "Register Account"
-    
-    
+      
     terminal:
-      ご登録ありがとうございます。
-      登録を続けるには、以下リンクをクリックしてください。
-      http://127.0.0.1:8000/accounts/confirm-email/Mw:1kebu9:LseFfUAYjaSoBbcW0lo8s6B_BC6AaO_bMkXxXOi2UcE/
-      -------------------------------------------------------------------------------
-    
+    > ご登録ありがとうございます。
+    > 登録を続けるには、以下リンクをクリックしてください。
+    > http://127.0.0.1:8000/accounts/confirm-email/Mw:1kebu9:LseFfUAYjaSoBbcW0lo8s6B_BC6AaO_bMkXxXOi2UcE/
+    > -------------------------------------------------------------------------------
     
     Copy the url and paste it into your browser.
     Then press the "confirm" button.
