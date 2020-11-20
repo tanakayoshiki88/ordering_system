@@ -10,6 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
 from django.contrib.messages import constants as messages
 
 import os
@@ -22,7 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'h1o2@d^1#v38v0a%_+lr6#@_d=mu9zt0rc6vv(s7-6&1i)j&2('
+# SECRET_KEY = '' 削除しました
 
 
 # Application definition

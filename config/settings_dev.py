@@ -36,7 +36,7 @@ LOGGING = {
 
     # ロガー
     'loggers': {
-        # 自作アプリケーション全般のログを披露ロガー
+        # 自作アプリケーション全般のログを拾うロガー
         '': {
             'handlers': ['console'],
             'level': 'DEBUG',
