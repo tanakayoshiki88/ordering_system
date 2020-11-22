@@ -2,12 +2,12 @@
 
 ## Requirement
 
-python3
-django
-pillow
-django-allauth
-postgresql
-psycopg2-binary
+-python3
+-django
+-pillow
+-django-allauth
+-postgresql
+-psycopg2-binary
 
 
 ## Installation
