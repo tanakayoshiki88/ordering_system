@@ -122,37 +122,25 @@ def order_create(request):
 
 
 def received_order_list(request):
-    formset = OrderUpdateFormSetBySeller(
-        request.POST or None, queryset=Order.objects.filter(seller=request.user)
-    )
-    order_list = Order.objects.filter(seller=request.user)
 
-    print(request.method)
-    print(formset)
-    print(formset.is_valid())
-    print(formset.errors)
+    if request.user.is_anonymous:
+        return redirect('account_login')
+    else:
+        formset = OrderUpdateFormSetBySeller(
+            request.POST or None, queryset=Order.objects.filter(seller=request.user)
+        )
+        order_list = Order.objects.filter(seller=request.user)
 
-    if request.method == 'POST' and formset.is_valid():
-        formset.save()
-        return redirect('order:received_order_list')
+        if request.method == 'POST' and formset.is_valid():
+            formset.save()
+            return redirect('order:received_order_list')
 
-    context = {
-        'formset': formset,
-        'order_list': order_list,
-    }
+        context = {
+            'formset': formset,
+            'order_list': order_list,
+        }
 
-    return render(request, 'order/received_order_list.html', context)
-
-
-class ReceivedOrderListView(LoginRequiredMixin, generic.ListView):
-    """ 受注リストの表示 """
-    template_name = 'order/received_order_list.html'
-    model = Order
-    paginate_by = 10
-
-    def get_queryset(self):
-        orders = Order.objects.filter(seller=self.request.user, is_active=False).order_by('pk')
-        return orders
+        return render(request, 'order/received_order_list.html', context)
 
 
 """
