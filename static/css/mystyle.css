@@ -111,3 +111,32 @@
     width: 120px;
     height: 2em;
 }
+
+#id_item_description  {
+    width: 40rem;
+    height: 150px;
+    margin-top: 3px;
+    color: #6e707e;
+    border: 1px solid #d1d3e2;
+    border-radius: .35rem;
+}
+
+.item-create input {
+    margin: 0em;
+    padding: 1px 2px;
+    color: #6e707e;
+    border: 1px solid #d1d3e2;
+    border-radius: .35rem;
+}
+
+#id_photo {
+    border: none;
+}
+
+# .item-photo-column {
+#     min-width: 130px;
+}
+
+th {
+    table-layout: auto;
+}

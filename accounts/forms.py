@@ -37,10 +37,10 @@ class CustomLoginForm(LoginForm):
         super(CustomLoginForm, self).__init__(*args, **kwargs)
 
         # すべてのフィールドにクラス属性を設定
-#        for fieldname, field in self.fields.items():
-#            field.widget.attrs.update({
-#                'class': 'form-control form-control-user',
-#            })
+#       for fieldname, field in self.fields.items():
+#           field.widget.attrs.update({
+#               'class': 'form-control form-control-user',
+#           })
 
         # 'email' フィールドに 'placeholder'属性を設定
         self.fields['login'].widget.attrs.update({
@@ -53,6 +53,7 @@ class CustomLoginForm(LoginForm):
             'placeholder': 'Password',
             'class': 'form-control form-control-user'
         })
+
 
 class CustomResetPasswordForm(ResetPasswordForm):
 
@@ -71,13 +72,13 @@ class CustomResetPasswordKeyForm(ResetPasswordKeyForm):
     def __init__(self, *args, **kwargs):
         super(CustomResetPasswordKeyForm, self).__init__(*args, **kwargs)
 
-        # 'email' フィールドに 'placeholder'属性を設定
+        # 'password1' フィールドに 'placeholder'属性を設定
         self.fields['password1'].widget.attrs.update({
             'placeholder': 'New Password',
             'class': 'form-control form-control-user'
         })
 
-        # 'email' フィールドに 'placeholder'属性を設定
+        # 'password2' フィールドに 'placeholder'属性を設定
         self.fields['password2'].widget.attrs.update({
             'placeholder': 'New Password(again)',
             'class': 'form-control form-control-user'
