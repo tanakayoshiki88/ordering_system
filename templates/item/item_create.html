@@ -11,7 +11,7 @@
     <h1>商品登録</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <table>
+        <table class="item-create">
             {{ form.as_table }}
         </table>
         <hr>

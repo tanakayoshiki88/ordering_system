@@ -7,19 +7,20 @@
 {% block content_title %}X-order{% endblock %}
 
 {% block contents %}
-    <table class="table table-bordered" id="dataTable">
-      <thead>
+  <div class="table-responsive">
+    <table class="table" id="dataTable">
+      <thead class="thead-light col-4">
         <tr>
-          <th>id</th>
-          <th>商品画像</th>
-          <th>商品名</th>
-          <th>価格</th>
-          <th>税込</th>
-          <th>在庫数</th>
-          <th>商品詳細</th>
-          <th>編集</th>
+          <th scope="col">id</th>
+          <th scope="col" class="item-photo-column">商品画像</th>
+          <th scope="col">商品名</th>
+          <th scope="col">価格</th>
+          <th scope="col">税込</th>
+          <th scope="col">在庫数</th>
+          <th scope="col">商品詳細</th>
+          <th scope="col">編集</th>
         </tr>
-      </thead>
+      </thead.thead-light>
       <tbody>
         {% for item in object_list %}
           <tr>
@@ -43,6 +44,7 @@
         {% endfor %}
       </tbody>
     </table>
+  </div>
 
     <!-- ページネーション処理 -->
     {% if is_paginated %}

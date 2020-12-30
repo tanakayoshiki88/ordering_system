@@ -16,6 +16,7 @@ class Item(models.Model):
     # カラム定義
     user = models.ForeignKey(CustomUser, verbose_name='販売者', on_delete=models.PROTECT)
     name = models.CharField(verbose_name='商品名', max_length=40)
+    item_description = models.TextField(verbose_name='商品説明', max_length=200, blank=True, null=True)
     price = models.IntegerField(verbose_name='単価', default=0)
     including_tax = models.BooleanField(verbose_name='税込', default=False)
     unit = models.CharField(verbose_name='単位', max_length=10, default='個')
