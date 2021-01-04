@@ -1,6 +1,6 @@
 from django.db import models
 from item.models import Item
-from datetime import datetime
+from django.utils import timezone
 from django.urls import reverse
 
 
@@ -17,7 +17,7 @@ class Cart(models.Model):
         ordering = ['create_at']
 
     cart_id = models.CharField(verbose_name='カートID', max_length=250, blank=True)
-    create_at = models.DateField(verbose_name='カート作成日時', default=datetime.now)
+    create_at = models.DateField(verbose_name='カート作成日時', default=timezone.now)
 
     def __str__(self):
         return self.cart_id

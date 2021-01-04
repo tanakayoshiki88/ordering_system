@@ -1,7 +1,5 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from datetime import datetime
-
 
 
 class CustomUser(AbstractUser):
@@ -21,10 +19,10 @@ class CustomUser(AbstractUser):
     fax = models.IntegerField(verbose_name='Fax', blank=True, null=True)
 
 
-    def get_full_name(self):
-        """戻り地として last_name と first_name の間にスペースを挟んだ文字列 full_name を返すメソッド"""
-        full_name = '%s %s' % (self.last_name, self.first_name)
-        return full_name.strip()
+    #def get_full_name(self):
+    #    """戻り地として last_name と first_name の間にスペースを挟んだ文字列 full_name を返すメソッド"""
+    #    full_name = '%s %s' % (self.last_name, self.first_name)
+    #    return full_name.strip()
 
     def __str__(self):
         return self.username

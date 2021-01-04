@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class ItemCreateView(LoginRequiredMixin, generic.CreateView):
-    """商品登録機能"""
+    """販売商品登録機能"""
     template_name = "item/item_create.html"
     model = Item
     form_class = ItemCreateForm
@@ -35,7 +35,7 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 class ItemListView(LoginRequiredMixin, generic.ListView):
-    """商品リストを表示"""
+    """登録商品一覧機能"""
     template_name = 'item/item_list.html'
     model = Item
     paginate_by = 3
@@ -46,7 +46,7 @@ class ItemListView(LoginRequiredMixin, generic.ListView):
 
 
 class ItemDetailView(LoginRequiredMixin, generic.DetailView):
-    """登録商品詳細表示"""
+    """商品詳細表示機能"""
     template_name = 'item/item_detail.html'
     model = Item
 
@@ -61,7 +61,7 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
         return reverse_lazy('item:item_detail', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
-        print(form)
+
         messages.success(self.request, '商品詳細を更新しました。')
         return super().form_valid(form)
 
@@ -71,7 +71,7 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
-    """商品削除機能"""
+    """登録商品削除機能"""
     template_name = 'item/item_delete.html'    # 削除確認画面
     model = Item
     success_url = reverse_lazy('item:item_list')
@@ -83,6 +83,7 @@ class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class OrderItemListView(LoginRequiredMixin, generic.ListView):
 
+    """購入商品一覧機能"""
     template_name = 'item/order_item_list.html'
     model = Item
     success_url = reverse_lazy('order:index')
