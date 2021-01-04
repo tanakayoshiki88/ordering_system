@@ -35,6 +35,7 @@ class ItemCreateForm(forms.ModelForm):
         })
         """
 
+
 class ItemUpdateForm(forms.ModelForm):
     # 商品登録フォーム
     class Meta:

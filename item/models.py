@@ -1,6 +1,6 @@
 from accounts.models import CustomUser
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
 from django.urls import reverse
 
 
@@ -27,7 +27,7 @@ class Item(models.Model):
     category2 = models.CharField(verbose_name='カテゴリ2', max_length=30, blank=True, null=True)
     category3 = models.CharField(verbose_name='カテゴリ3', max_length=30, blank=True, null=True)
     photo = models.ImageField(verbose_name='商品画像', blank=True, null=True)
-    created_at = models.DateTimeField(verbose_name='作成日時', default=datetime.now)
+    created_at = models.DateTimeField(verbose_name='作成日時', default=timezone.now)
     updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
     is_active = models.BooleanField(verbose_name='販売可否', default=True)
 

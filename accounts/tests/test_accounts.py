@@ -1,10 +1,10 @@
-from django.contrib import auth
+from django.contrib.auth import get_user, get_user_model
 from django.core import mail
 from django.test import TestCase
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from accounts.forms import CustomSignupForm, CustomLoginForm, CustomResetPasswordForm, CustomResetPasswordKeyForm
 
-from accounts import models
+from accounts.models import CustomUser
 
 import re
 
@@ -49,7 +49,7 @@ class TestSignUp(TestCase):
 
         # 新規ユーザーが追加されたか
         self.assertTrue(
-            models.CustomUser.objects.filter(
+            CustomUser.objects.filter(
                 email=self.test_user['email']
             ).exists()
         )
@@ -64,7 +64,7 @@ class TestSignUp(TestCase):
 
         # 非ログイン状態かどうか
         self.assertTrue(
-            auth.get_user(self.client).is_anonymous
+            get_user(self.client).is_anonymous
         )
 
 
@@ -94,7 +94,7 @@ class TestLogin(TestCase):
     # ログインが成功するかどうか
     def test_for_successful_login(self):
         # テスト用ユーザー作成
-        auth.get_user_model().objects.create_user(
+        get_user_model().objects.create_user(
             self.test_user['username'],
             self.test_user['email'],
             self.test_user['password']
@@ -108,7 +108,7 @@ class TestLogin(TestCase):
 
         # 新規ユーザが追加されたか
         self.assertTrue(
-            models.CustomUser.objects.filter(
+            CustomUser.objects.filter(
                 email=self.test_user['email']
             ).exists()
         )
@@ -123,7 +123,7 @@ class TestLogin(TestCase):
 
         # ログイン状態かどうか
         self.assertTrue(
-            auth.get_user(self.client).is_authenticated
+            get_user(self.client).is_authenticated
         )
 
         # /index/へリダイレクトされたか
@@ -147,7 +147,7 @@ class TestLogout(TestCase):
         }
 
         # テスト用ユーザー作成
-        auth.get_user_model().objects.create_user(
+        get_user_model().objects.create_user(
             self.test_user['username'],
             self.test_user['email'],
             self.test_user['password']
@@ -161,14 +161,14 @@ class TestLogout(TestCase):
 
         # ログイン状態かどうか
         self.assertTrue(
-            auth.get_user(self.client).is_authenticated
+            get_user(self.client).is_authenticated
         )
 
         self.client.logout()
 
         # 非ログイン状態かどうか
         self.assertTrue(
-            auth.get_user(self.client).is_anonymous
+            get_user(self.client).is_anonymous
         )
 
 
@@ -182,7 +182,7 @@ class TestPasswordReset(TestCase):
         }
 
         # テスト用ユーザー作成
-        auth.get_user_model().objects.create_user(
+        get_user_model().objects.create_user(
             self.test_user['username'],
             self.test_user['email'],
             self.test_user['password']
@@ -190,7 +190,7 @@ class TestPasswordReset(TestCase):
 
         # 新規ユーザが追加されたか
         self.assertTrue(
-            models.CustomUser.objects.filter(
+            CustomUser.objects.filter(
                 email=self.test_user['email']
             ).exists()
         )
@@ -246,7 +246,7 @@ class TestPasswordReset(TestCase):
         response = self.client.get(password_reset_url)
 
         # "testuser004@example.com"のプライマリーキーを取得
-        pk = models.CustomUser.objects.get(
+        pk = CustomUser.objects.get(
                 email=self.test_user['email']
             ).pk
 
@@ -301,7 +301,7 @@ class TestPasswordReset(TestCase):
 
         # ログイン状態かどうか
         self.assertTrue(
-            auth.get_user(self.client).is_authenticated
+            get_user(self.client).is_authenticated
         )
 
         # /index/へリダイレクトされたか

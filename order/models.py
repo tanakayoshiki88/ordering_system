@@ -1,6 +1,6 @@
 from accounts.models import CustomUser
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
 
 
 class Order(models.Model):
@@ -28,7 +28,7 @@ class Order(models.Model):
     photo = models.ImageField(verbose_name='商品画像', blank=True, null=True)
     total_unit = models.IntegerField(verbose_name='商品点数', default=0)
     total_price = models.IntegerField(verbose_name='合計金額', default=0)
-    order_date = models.DateTimeField(verbose_name='注文日', default=datetime.now)
+    order_date = models.DateTimeField(verbose_name='注文日', default=timezone.now)
     delivery_date = models.DateTimeField(verbose_name='納品日', blank=True, null=True)
     shipment_date = models.DateTimeField(verbose_name='発送日', blank=True, null=True)
     is_active = models.BooleanField(verbose_name='納品完了フラグ', default=True)
