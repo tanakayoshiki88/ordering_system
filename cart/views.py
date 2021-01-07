@@ -7,8 +7,9 @@ import math
 
 __tax_rate__ = 1.1
 
-
+"""セッションキー取得機能"""
 def __get_cart_id(request):
+
     cart_id = request.session.session_key
     if not cart_id:
         cart_id = request.session.create()

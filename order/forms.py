@@ -41,9 +41,9 @@ class ContactForm(forms.Form):
 
         subject = 'お問い合せ {}'.format(subject)
         message = '送信者名： {0}\nメッセージ：\n{2}'.format(name, email, message)
-        from_email = 'example@gmail.com'
+        from_email = email
         to_list = [
-            'test@example.com'
+            'test-to@example.com'
         ]
         cc_list = [
             email

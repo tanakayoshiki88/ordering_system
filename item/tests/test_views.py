@@ -191,8 +191,7 @@ class TestItemCreateView(TestCase):
         self.assertEqual(response.status_code, 200)  # ステータスコードが200かどうか
         self.assertTemplateUsed(response, 'item/item_create.html')  # 使用テンプレートが"account/password_reset.html"かどうか
         self.assertContains(response, '商品登録 | X-order')  # "account/item_create.html"に動的に生成される"ログイン状態を維持する"が含まれるか
-        self.assertContains(response,
-                            'csrfmiddlewaretoken')  # "account/password_reset.html"に動的に生成される"csrfmiddlewaretoken"が含まれるか
+        self.assertContains(response, 'csrfmiddlewaretoken')  # "account/password_reset.html"に動的に生成される"csrfmiddlewaretoken"が含まれるか
         self.assertIsInstance(  # "response.context['form']"が"ResetPasswordForm"のインスタンスかどうか
             response.context['form'], ItemCreateForm
         )
@@ -689,14 +688,14 @@ class OrderItemListView(TestCase):
         )
 
         """非ログインユーザー002"""
-        # test用ログインユーザデータ
+        # test用ログインユーザ002データ
         self.test_user_data_002 = {
             "username": "testuser002",
             "email": "testuser002@example.com",
             "password": "abcdefg123456",
         }
 
-        # テスト用非ログインユーザーデータをデータベースに作成
+        # テスト用非ログインユーザー002データをデータベースに作成
         self.test_user_002 = get_user_model().objects.create_user(
             self.test_user_data_002['username'],
             self.test_user_data_002['email'],
