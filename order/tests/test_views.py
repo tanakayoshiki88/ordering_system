@@ -302,9 +302,6 @@ class TestOrderCreate(TestCase):
         login_status = self.client.login(email=self.test_user_data_001['email'],
                                          password=self.test_user_data_001['password'])
 
-        print("self.client.session:  {0}".format(self.client.session))
-        print("self.client.session.session_key:  {0}".format(self.client.session.session_key))
-
         self.assertTrue(login_status)
 
         response = self.client.post(
@@ -318,7 +315,6 @@ class TestOrderCreate(TestCase):
             get_user(self.client).is_authenticated
         )
 
-        print("response.request:  {0}".format(response.request))
         # テスト用商品データ
         self.test_item_data = {
             "user_id": self.test_user_001.pk,
@@ -411,4 +407,4 @@ class TestOrderCreate(TestCase):
         self.assertEqual('testuser001@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
         self.assertEqual('X-order.info@example.com', self.email.from_email)
         self.assertEqual('X-order 発注情報', self.email.subject)  # 件名が正しいかどうか
-        self.assertIn('abcあいう商品名001 - 2', self.email.body)  # 本文に'abcあいう商品名001 - 2'が含まれているか
+        self.assertIn('abcあいう商品名001 - 2', self.email.body)  # 本文に"abcあいう商品名001 - 2"が含まれているか
