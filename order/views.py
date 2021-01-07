@@ -10,7 +10,6 @@ from django.views import generic
 
 from order.models import Order
 from cart.models import Cart, CartItem
-from accounts.models import CustomUser
 
 from .forms import ContactForm, OrderUpdateFormSetBySeller
 
@@ -24,7 +23,7 @@ class IndexView(generic.TemplateView):
     template_name = "order/index.html"
 
 
-# お問い合わせフォームの表示
+# お問い合わせ機能
 class ContactView(generic.FormView):
     template_name = "order/contact.html"
     form_class = ContactForm
@@ -38,8 +37,6 @@ class ContactView(generic.FormView):
         logger.info('contact send by {}'.format('name'))
 
         return super().form_valid(form)
-
-# def order_create(request, cart_id):
 
 
 # 発注商品リストを表示
