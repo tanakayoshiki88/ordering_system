@@ -1,10 +1,7 @@
 from .settings_common import *
 
-# global_settings.pyからSECRET_KEYを読み込み
-try:
-    from .global_settings import *
-except ImportError:
-    pass
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
@@ -14,7 +11,7 @@ STATIC_ROOT = '/usr/share/nginx/html/static'
 MEDIA_ROOT = '/usr/share/nginx/html/media'
 
 AWS_SES_ACCESS_KEY_ID = os.environ.get('AWS_SES_ACCESS_KEY_ID')
-AWS_SES_SECRET_ACCESS_KEY_ID = os.environ.get('AWS_SES_SECRET_ACCESS_KEY_ID')
+AWS_SES_SECRET_ACCESS_KEY = os.environ.get('AWS_SES_SECRET_ACCESS_KEY')
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
@@ -28,40 +25,42 @@ LOGGING = {
         # django用ロガー
         'django': {
             'handlers': ['file'],
-            'level': 'INFO'
+            'level': 'INFO',
         },
 
         # アプリケーション用ロガー
         'order': {
             'handlers': ['file'],
-            'level': 'INFO'
+            'level': 'INFO',
         },
 
         'accounts': {
             'handlers': ['file'],
-            'level': 'INFO'
+            'level': 'INFO',
         },
 
         'cart': {
             'handlers': ['file'],
-            'level': 'INFO'
+            'level': 'INFO',
         },
 
         'item': {
             'handlers': ['file'],
-            'level': 'INFO'
+            'level': 'INFO',
         },
     },
 
     # ハンドラ設定
     'handlers': {
-        'level': 'INFO',
-        'class': 'Logging.handlers.TimedRotatingFileHandler',
-        'filename': os.path.join(BASE_DIR, 'logs/django.log'),
-        'formatter': 'prod',
-        'when': 'D',
-        'interval': 1,
-        'backupCount': 7,
+        'file': {
+            'level': 'INFO',
+            'class': 'Logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'formatter': 'prod',
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 7,
+        },
     },
 
     # フォーマッタ設定
