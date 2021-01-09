@@ -1,5 +1,11 @@
 from .settings_common import *
 
+# local_settings.pyからSECRET_KEYを読み込み
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

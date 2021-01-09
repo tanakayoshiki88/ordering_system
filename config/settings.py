@@ -1,5 +1,11 @@
 from .settings_common import *
 
+# global_settings.pyからSECRET_KEYを読み込み
+try:
+    from .global_settings import *
+except ImportError:
+    pass
+
 DEBUG = False
 
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
