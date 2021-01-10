@@ -105,7 +105,7 @@ def order_create(request):
                   .join(["{0} - {1}"
                         .format(key, value) for (key, value) in item_name_quantity_for_sending_email.items()]))
         # 送信元アドレス
-        from_email = "X-order.info@example.com"
+        from_email = "xorder78@gmail.com"
         # 送信先アドレス
         seller = [cart_item.item.user.email]
         recipient_list = seller
