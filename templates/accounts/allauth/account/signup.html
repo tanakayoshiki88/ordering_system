@@ -1,6 +1,6 @@
 {% extends './auth_base.html' %}
 
-{% block title %}Register | X-order{% endblock %}
+{% block title %}Register | Juhacchu{% endblock %}
 
 
 {% block contents %}
@@ -40,6 +40,9 @@
                   </a>
                 </form>
                 <hr>
+                <div class="text-center">
+                  <a class="small" href="{% url 'order:index' %}">HOME</a>
+                </div>
                 <div class="text-center">
                   <a class="small" href="{% url 'account_reset_password' %}">Forgot Password?</a>
                 </div>

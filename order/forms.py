@@ -1,7 +1,8 @@
 from django import forms
 from django.core.mail import EmailMessage
-from item.models import Item
 from .models import Order
+
+import os
 
 
 # 問合せフォーム
@@ -39,19 +40,22 @@ class ContactForm(forms.Form):
         subject = self.cleaned_data['subject']
         message = self.cleaned_data['message']
 
-        subject = 'お問い合せ {}'.format(subject)
-        message = '送信者名： {0}\nメッセージ：\n{2}'.format(name, email, message)
-        from_email = email
-        to_list = [
-            'test-to@example.com'
+        subject = '【お問い合せ】 {}'.format(subject)
+        body_for_from = '問合せ者名： {0}\n問合せ者メールアドレス: {1}\n【メッセージ】\n{2}'.format(name, email, message)
+        body_for_questioner = '問合せ者名： {0}\n問合せ者メールアドレス: {1}\n【メッセージ】\n{2}'.format(name, email, message)
+        from_email = os.environ.get('DEFAULT_FROM_EMAIL')
+        to_list_for_from = [
+            os.environ.get('DEFAULT_FROM_EMAIL')
         ]
-        cc_list = [
-            email
+        to_list_for_questioner = [
+           email
         ]
 
-        message = EmailMessage(subject=subject, body=message, from_email=from_email, to=to_list, cc=cc_list)
+        message_from = EmailMessage(subject=subject, body=body_for_from, from_email=from_email, to=to_list_for_from)
+        message_questioner = EmailMessage(subject=subject, body=body_for_questioner, from_email=from_email, to=to_list_for_questioner)
 
-        message.send()
+        message_from.send()
+        message_questioner.send()
 
 
 # オーダー編集フォーム

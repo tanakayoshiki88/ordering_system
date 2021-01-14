@@ -10,6 +10,8 @@ from order.models import Order
 from item.models import Item
 from cart.models import Cart, CartItem
 
+import os
+
 
 class TestIndexView(TestCase):
 
@@ -21,7 +23,7 @@ class TestIndexView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/index.html")  # 使用テンプレートが"order/index.html"かどうか
-        self.assertContains(response, "X-order is ordering system")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
+        self.assertContains(response, "じゅはっちゅう is ordering system")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
 
 
 class TestContactView(TestCase):
@@ -55,7 +57,7 @@ class TestContactView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/contact.html")  # 使用テンプレートが"order/index.html"かどうか
-        self.assertContains(response, "X-order | Contact US")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
+        self.assertContains(response, "Juhacchu | Contact US")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
         self.assertContains(response,
                             'csrfmiddlewaretoken')  # "account/contact.html"に動的に生成される"csrfmiddlewaretoken"が含まれるか
         self.assertIsInstance(  # "response.context['form']"が"ContactForm"のインスタンスかどうか
@@ -84,7 +86,7 @@ class TestContactView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/contact.html")  # 使用テンプレートが"order/icontact.html"かどうか
         self.assertContains(response,
-                            "X-order | Contact US")  # "order/icontact.html"に文字列："X-order | Contact US"が含まれているか
+                            "Juhacchu | Contact US")  # "order/icontact.html"に文字列："Juhacchu | Contact US"が含まれているか
         self.assertContains(response,
                             "メッセージを送信しました!!")  # "order/icontact.html"に文字列："メッセージを送信しました!!"が含まれているか
         self.assertContains(response,
@@ -97,9 +99,13 @@ class TestContactView(TestCase):
         self.email = mail.outbox[0]
 
         self.assertEqual(len(mail.outbox), 1)  # 1件のメッセージ
-        self.assertEqual('test-to@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
+        self.assertEqual('xorder78@gmail.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
         self.assertEqual('test-contact-mail@example.com', self.email.from_email)
         self.assertEqual('お問い合せ お問い合わせメール送信テスト', self.email.subject)  # 件名が正しいかどうか
+
+        print("DEFAULT_FROM_EMAIL: {0}".format(os.environ['DB_USER']))
+        print("os.environ: {0}".format(os.environ))
+        print("test thank you::")
 
         email_confirmation_message = 'お問い合わせメール送信テスト'
         self.assertIn(email_confirmation_message, self.email.body)  # メール本文にemail_confirmation_messageが含まれるか
@@ -117,7 +123,7 @@ class TestContactView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/contact.html")  # 使用テンプレートが"order/contact.html"かどうか
         self.assertContains(response,
-                            "X-order | Contact US")  # "order/contact.html"に文字列："X-order | Contact US"が含まれているか
+                            "Juhacchu | Contact US")  # "order/contact.html"に文字列："Juhacchu | Contact US"が含まれているか
         self.assertNotContains(response,
                             "メッセージを送信しました!!")  # "order/contact.html"に文字列："メッセージを送信しました!!"が含まれているか
         self.assertContains(response,
@@ -405,6 +411,12 @@ class TestOrderCreate(TestCase):
 
         self.assertEqual(len(mail.outbox), 1)  # 1件のメッセージ
         self.assertEqual('testuser001@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
-        self.assertEqual('X-order.info@example.com', self.email.from_email)
-        self.assertEqual('X-order 発注情報', self.email.subject)  # 件名が正しいかどうか
+        self.assertEqual('xorder78@gmail.com', self.email.from_email)
+        self.assertEqual('Juhacchu 発注情報', self.email.subject)  # 件名が正しいかどうか
         self.assertIn('abcあいう商品名001 - 2', self.email.body)  # 本文に"abcあいう商品名001 - 2"が含まれているか
+
+        DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+        print("os.environ.get: {0}".format(os.environ['ALLOWED_HOSTS']))
+        print("DEFAULT_FROM_EMAIL: {0}".format(DEFAULT_FROM_EMAIL))
+        print("EMAIL_HOST_PASSWORD: {0}".format(os.environ.get('EMAIL_HOST_PASSWORD')))
+        print("os.environ: {0}".format(os.environ))
