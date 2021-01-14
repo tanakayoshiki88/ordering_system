@@ -13,6 +13,8 @@ from cart.models import Cart, CartItem
 
 from .forms import ContactForm, OrderUpdateFormSetBySeller
 
+import os
+
 logger = logging.getLogger(__name__)
 
 __tax_rate__ = 1.1
@@ -92,25 +94,35 @@ def order_create(request):
     except ObjectDoesNotExist:
         pass
 
-    messages.success(request, '発注が完了しました。')
+    messages.success(request, '発注が完了しました。詳細は発注履歴一覧でご覧いただけます。')
 
     try:
         # 発注情報メール件名
-        subject = "X-order 発注情報"
+        subject = "Juhacchu 発注情報"
         # 受注情報メールメッセージ
-        message = str(request.user)\
+        message_for_seller = str(request.user)\
             + "様から発注がありました。\n詳細は、受注一覧より確認いただけます。\n"\
             + "----------------------------------------\n"\
             + str("\n"
                   .join(["{0} - {1}"
                         .format(key, value) for (key, value) in item_name_quantity_for_sending_email.items()]))
+        # 受注情報メールメッセージfor DEFAULT_FROM_EMAIL
+        message_for_from = str(request.user) \
+                  + "様から発注がありました。\n詳細は、受注一覧より確認いただけます。\n" \
+                  + "----------------------------------------\n" \
+                  + str("\n"
+                        .join(["{0} - {1}"
+                              .format(key, value) for (key, value) in item_name_quantity_for_sending_email.items()]))
+
         # 送信元アドレス
-        from_email = "xorder78@gmail.com"
+        from_email = os.environ.get('DEFAULT_FROM_EMAIL')
         # 送信先アドレス
-        seller = [cart_item.item.user.email]
-        recipient_list = seller
+        seller = cart_item.item.user.email
+        recipient_list_for_seller = [seller]
+        recipient_list_for_from = [os.environ.get('DEFAULT_FROM_EMAIL')]
         # メール送信
-        send_mail(subject, message, from_email, recipient_list)
+        send_mail(subject, message_for_seller, from_email, recipient_list_for_seller)
+        send_mail(subject, message_for_from, from_email, recipient_list_for_from)
     except ObjectDoesNotExist:
         pass
     cart.delete()

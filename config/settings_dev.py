@@ -1,5 +1,7 @@
 from .settings_common import *
 
+import os
+
 # local_settings.pyからSECRET_KEYを読み込み
 try:
     from .local_settings import *
@@ -11,6 +13,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# メールバックエンド設定
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django_ses.SESBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # ロギング設定
 
@@ -64,8 +70,5 @@ LOGGING = {
         },
     },
 }
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
