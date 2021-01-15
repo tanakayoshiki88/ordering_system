@@ -23,7 +23,7 @@ class TestIndexView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/index.html")  # 使用テンプレートが"order/index.html"かどうか
-        self.assertContains(response, "じゅはっちゅう is ordering system")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
+        self.assertContains(response, "Juhatchu is ordering system")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
 
 
 class TestContactView(TestCase):
