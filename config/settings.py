@@ -54,7 +54,7 @@ LOGGING = {
         },
     },
 
-    # ハンドラの設定
+    # ハンドラ設定
     'handlers': {
         'file': {
             'level': 'INFO',
@@ -67,7 +67,7 @@ LOGGING = {
         },
     },
 
-    # フォーマッタの設定
+    # フォーマッタ設定
     'formatters': {
         'prod': {
             'format': '\t'.join([
