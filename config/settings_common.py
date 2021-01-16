@@ -209,3 +209,6 @@ EMAIL_USE_TLS = True
 
 # デフォルト送信元メールアドレス
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+
+# django-allauthが送信するメールの件名に自動付与される接頭辞をブランクにする設定
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
