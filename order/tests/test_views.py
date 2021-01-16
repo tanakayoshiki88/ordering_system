@@ -99,13 +99,9 @@ class TestContactView(TestCase):
         self.email = mail.outbox[0]
 
         self.assertEqual(len(mail.outbox), 1)  # 1件のメッセージ
-        self.assertEqual('xorder78@gmail.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
+        self.assertEqual(os.environ.get('DEFAULT_FROM_EMAIL'), self.email.to[0])  # 宛先メールアドレスが正しいかどうか
         self.assertEqual('test-contact-mail@example.com', self.email.from_email)
         self.assertEqual('お問い合せ お問い合わせメール送信テスト', self.email.subject)  # 件名が正しいかどうか
-
-        print("DEFAULT_FROM_EMAIL: {0}".format(os.environ['DB_USER']))
-        print("os.environ: {0}".format(os.environ))
-        print("test thank you::")
 
         email_confirmation_message = 'お問い合わせメール送信テスト'
         self.assertIn(email_confirmation_message, self.email.body)  # メール本文にemail_confirmation_messageが含まれるか
@@ -409,14 +405,8 @@ class TestOrderCreate(TestCase):
         # メールが送信されたか（厳密にはメールがoutboxに保存されたか）
         self.email = mail.outbox[0]
 
-        self.assertEqual(len(mail.outbox), 1)  # 1件のメッセージ
+        self.assertEqual(len(mail.outbox), 2)  # 1件のメッセージ
         self.assertEqual('testuser001@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
-        self.assertEqual('xorder78@gmail.com', self.email.from_email)
+        self.assertEqual(os.environ.get('DEFAULT_FROM_EMAIL'), self.email.from_email)
         self.assertEqual('Juhacchu 発注情報', self.email.subject)  # 件名が正しいかどうか
         self.assertIn('abcあいう商品名001 - 2', self.email.body)  # 本文に"abcあいう商品名001 - 2"が含まれているか
-
-        DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
-        print("os.environ.get: {0}".format(os.environ['ALLOWED_HOSTS']))
-        print("DEFAULT_FROM_EMAIL: {0}".format(DEFAULT_FROM_EMAIL))
-        print("EMAIL_HOST_PASSWORD: {0}".format(os.environ.get('EMAIL_HOST_PASSWORD')))
-        print("os.environ: {0}".format(os.environ))

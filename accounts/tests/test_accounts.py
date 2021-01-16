@@ -57,7 +57,7 @@ class TestSignUp(TestCase):
         # メールが送信されたか（厳密にはメールがoutboxに保存されたか）
         self.email = mail.outbox[0]
         self.assertEqual('testuser001@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
-        self.assertEqual('[example.com] ユーザー登録確認メール', self.email.subject)  # 件名が正しいかどうか
+        self.assertEqual('ユーザー登録確認メール', self.email.subject)  # 件名が正しいかどうか
 
         email_confirmation_message = 'ご登録ありがとうございます。\nまだ、登録は完了しておりません。\n登録を続けるには、以下リンクをクリックしてください。'
         self.assertIn(email_confirmation_message, self.email.body)  # メール本文にemail_confirmation_messageが含まれるか
@@ -235,7 +235,7 @@ class TestPasswordReset(TestCase):
         # メールが送信されたか（厳密にはメールがoutboxに保存されたか）
         self.email = mail.outbox[0]
         self.assertEqual('testuser004@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
-        self.assertEqual('[example.com] パスワードリセット', self.email.subject)  # 件名が正しいかどうか
+        self.assertEqual('パスワードリセット', self.email.subject)  # 件名が正しいかどうか
 
         email_confirmation_message = 'パスワードリセットが申請されました。\n記載されているリンクからパスワードの再設定を行ってください。'
         self.assertIn(email_confirmation_message, self.email.body)  # メール本文にemail_confirmation_messageが含まれるか
