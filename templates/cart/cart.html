@@ -6,9 +6,9 @@
     これはショッピングカートのページです。商品を確認し、注文してください。
 {% endblock %}
 
-{% block title %}Juhacchu{% endblock %}
+{% block title %}ショッピングカート | Juhatchu{% endblock %}
 
-{% block content_title %}Cart - Juhacchu{% endblock %}
+{% block content_title %}Cart - Juhatchu{% endblock %}
 
 {% block contents %}
 
@@ -60,22 +60,22 @@
                                 <br>
                                 単価: ￥{{cart_item.item.price}}
                                 <br>
-                                数量: {{cart_item.quantity}} x ￥{{cart_item.item.price}}
+                                数量: <span id="item-quantity">{{cart_item.quantity}}</span> x ￥{{cart_item.item.price}}
                             </td>
                             <td>
                                 ￥{{cart_item.sub_total}}
                             </td>
                             {% if cart_item.quantity < cart_item.item.stock %}
                                 <td>
-                                    <a href="{% url 'cart:add_cart' cart_item.item.id %}" class="">
+                                    <a href="{% url 'cart:add_cart' cart_item.item.id %}" class="increase-quantity">
                                         <i class="fas fa-plus-circle custom_icon"></i>
                                     </a>
                                     &nbsp;
-                                    <a href="{% url 'cart:reduce_quantity' cart_item.item.id %}" class="">
+                                    <a href="{% url 'cart:reduce_quantity' cart_item.item.id %}" class="reduce-quantity">
                                         <i class="fas fa-minus-circle custom_icon"></i>
                                     </a>
                                     &nbsp;
-                                    <a href="{% url 'cart:cart_item_remove' cart_item.item.id %}" class="">
+                                    <a href="{% url 'cart:cart_item_remove' cart_item.item.id %}" class="item-remove">
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -120,7 +120,7 @@
                   </tbody>
                 </table>
                 <div class="mx-auto">
-                    <a href="{% url 'order:order_create' %}" class="btn-primary btn-block">発注する</a>
+                    <a href="{% url 'order:order_create' %}" class="btn-primary btn-block submit-order">発注する</a>
                 </div>
                 <div class="mx-auto">
                     <a href="{% url 'item:order_item_list' %}" class="btn-secondary btn-block margin-top-5px">ショッピングを続ける</a>

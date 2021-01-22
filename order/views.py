@@ -98,7 +98,7 @@ def order_create(request):
 
     try:
         # 発注情報メール件名
-        subject = "Juhacchu 発注情報"
+        subject = "Juhatchu 発注情報"
         # 受注情報メールメッセージ
         message_for_seller = str(request.user)\
             + "様から発注がありました。\n詳細は、受注一覧より確認いただけます。\n"\

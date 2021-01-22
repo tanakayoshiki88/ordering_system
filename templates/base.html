@@ -69,9 +69,9 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{% url 'item:item_list' %}">登録商品一覧</a>
-                    <a class="collapse-item" href="{% url 'item:item_create' %}">販売商品登録</a>
-                    <a class="collapse-item" href="{% url 'order:received_order_list' %}">受注一覧</a>
+                    <a class="collapse-item to-item-list" href="{% url 'item:item_list' %}">登録商品一覧</a>
+                    <a class="collapse-item to-item-create" href="{% url 'item:item_create' %}">販売商品登録</a>
+                    <a class="collapse-item to-received-order-list" href="{% url 'order:received_order_list' %}">受注一覧</a>
                 </div>
             </div>
         </li>
@@ -87,8 +87,8 @@
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Utilities:</h6>
-                    <a class="collapse-item" href="{% url 'item:order_item_list' %}">商品一覧</a>
-                    <a class="collapse-item" href="{% url 'order:placed_order_list' %}">発注履歴一覧</a>
+                    <a class="collapse-item to-item-list" href="{% url 'item:order_item_list' %}">商品一覧</a>
+                    <a class="collapse-item to-placed-order-list" href="{% url 'order:placed_order_list' %}">発注履歴一覧</a>
                 </div>
             </div>
         </li>
@@ -330,13 +330,13 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-3 d-none d-lg-inline text-gray-600 small margin-top-1rem">
-                  {% if user.is_authenticated %}
-                    <p>{{ user }}</p>
-                  {% else %}
-                    <p>ゲストユーザー</p>
-                  {% endif %}
-                </span>
+                            <span class="mr-3 d-none d-lg-inline text-gray-600 small margin-top-1rem">
+                                {% if user.is_authenticated %}
+                                    <p>{{ user }}</p>
+                                {% else %}
+                                    <p>ゲストユーザー</p>
+                                {% endif %}
+                            </span>
                             <img class="img-profile rounded-circle" src="/static/img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -355,8 +355,8 @@
                                 Activity Log
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'account_logout' %}">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            <a class="dropdown-item dropdown-logout" href="{% url 'account_logout' %}">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" name="dropdown-logout"></i>
                                 Logout
                             </a>
                         </div>
