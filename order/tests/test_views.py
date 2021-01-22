@@ -57,7 +57,7 @@ class TestContactView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/contact.html")  # 使用テンプレートが"order/index.html"かどうか
-        self.assertContains(response, "Juhacchu | Contact US")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
+        self.assertContains(response, "Juhatchu | Contact US")  # "order/index.html"に文字列："X - order is ordering system"が含まれているか
         self.assertContains(response,
                             'csrfmiddlewaretoken')  # "account/contact.html"に動的に生成される"csrfmiddlewaretoken"が含まれるか
         self.assertIsInstance(  # "response.context['form']"が"ContactForm"のインスタンスかどうか
@@ -86,7 +86,7 @@ class TestContactView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/contact.html")  # 使用テンプレートが"order/icontact.html"かどうか
         self.assertContains(response,
-                            "Juhacchu | Contact US")  # "order/icontact.html"に文字列："Juhacchu | Contact US"が含まれているか
+                            "Juhatchu | Contact US")  # "order/icontact.html"に文字列："Juhatchu | Contact US"が含まれているか
         self.assertContains(response,
                             "メッセージを送信しました!!")  # "order/icontact.html"に文字列："メッセージを送信しました!!"が含まれているか
         self.assertContains(response,
@@ -119,7 +119,7 @@ class TestContactView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "order/contact.html")  # 使用テンプレートが"order/contact.html"かどうか
         self.assertContains(response,
-                            "Juhacchu | Contact US")  # "order/contact.html"に文字列："Juhacchu | Contact US"が含まれているか
+                            "Juhatchu | Contact US")  # "order/contact.html"に文字列："Juhatchu | Contact US"が含まれているか
         self.assertNotContains(response,
                             "メッセージを送信しました!!")  # "order/contact.html"に文字列："メッセージを送信しました!!"が含まれているか
         self.assertContains(response,
@@ -408,5 +408,5 @@ class TestOrderCreate(TestCase):
         self.assertEqual(len(mail.outbox), 2)  # 1件のメッセージ
         self.assertEqual('testuser001@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
         self.assertEqual(os.environ.get('DEFAULT_FROM_EMAIL'), self.email.from_email)
-        self.assertEqual('Juhacchu 発注情報', self.email.subject)  # 件名が正しいかどうか
+        self.assertEqual('Juhatchu 発注情報', self.email.subject)  # 件名が正しいかどうか
         self.assertIn('abcあいう商品名001 - 2', self.email.body)  # 本文に"abcあいう商品名001 - 2"が含まれているか

@@ -125,7 +125,7 @@ class TestItemCreateView(TestCase):
 
         self.assertEqual(response.status_code, 200)  # ステータスコードが200かどうか
         self.assertTemplateUsed(response, 'item/item_create.html')  # 使用テンプレートが"account/password_reset.html"かどうか
-        self.assertContains(response, '商品登録 | Juhacchu')  # "account/item_create.html"に動的に生成される"ログイン状態を維持する"が含まれるか
+        self.assertContains(response, '商品登録 | Juhatchu')  # "account/item_create.html"に動的に生成される"ログイン状態を維持する"が含まれるか
         self.assertContains(response, 'csrfmiddlewaretoken')  # "account/password_reset.html"に動的に生成される"csrfmiddlewaretoken"が含まれるか
         self.assertIsInstance(  # "response.context['form']"が"ResetPasswordForm"のインスタンスかどうか
             response.context['form'], ItemCreateForm
@@ -190,7 +190,7 @@ class TestItemCreateView(TestCase):
 
         self.assertEqual(response.status_code, 200)  # ステータスコードが200かどうか
         self.assertTemplateUsed(response, 'item/item_create.html')  # 使用テンプレートが"account/password_reset.html"かどうか
-        self.assertContains(response, '商品登録 | Juhacchu')  # "account/item_create.html"に動的に生成される"ログイン状態を維持する"が含まれるか
+        self.assertContains(response, '商品登録 | Juhatchu')  # "account/item_create.html"に動的に生成される"ログイン状態を維持する"が含まれるか
         self.assertContains(response, 'csrfmiddlewaretoken')  # "account/password_reset.html"に動的に生成される"csrfmiddlewaretoken"が含まれるか
         self.assertIsInstance(  # "response.context['form']"が"ResetPasswordForm"のインスタンスかどうか
             response.context['form'], ItemCreateForm
