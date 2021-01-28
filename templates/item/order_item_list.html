@@ -30,13 +30,17 @@
               {% if item.photo %}
                 <a href="{{ item.get_absolute_url }}"><img src="{{ item.photo.url }}" class="item-photo"/></a>
               {% else %}
-            <a href="{{ item.get_absolute_url }}"><p class="No-image">No image</p></a>
+                <a href="{{ item.get_absolute_url }}"><p class="No-image">No image</p></a>
               {% endif %}
             </td>
             <td>{{ item.name }}</td>
             <td>{{ item.price }}</td>
             <td>{{ item.including_tax }}</td>
-            <td>{{ item.stock }}{{ item.unit }}</td>
+            {% if item.available_stock > 0 %}
+              <td>{{ item.available_stock }}{{ item.unit }}</td>
+            {% else %}
+              <td>Out of stock</td>
+            {% endif %}
             <td><a href="{% url 'item:item_detail' item.pk%}"><i class="fas fa-info-circle fa-lg"></i></a></td>
             <td></td>
           </tr>

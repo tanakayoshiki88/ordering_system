@@ -36,7 +36,8 @@ class TestItemCreateView(TestCase):
         self.item_data_for_test = {
             "name": "abcあいう商品名123",
             "price": 1,
-            "unit": "本"
+            "unit": "本",
+            "stock": 1,
         }
 
         # テスト用商品名
@@ -458,10 +459,11 @@ class TestItemUpdateView(TestCase):
             "user_id": self.test_user.pk,
             "name": "abcあいう商品名123",
             "price": 1,
-            "unit": "本"
+            "unit": "本",
+            "stock": 1
         }
 
-        # テスト用商品データをデータベスに挿入
+        # テスト用商品データをデータベースに挿入
         self.test_item = Item.objects.create(
             user_id=self.item_data_for_test['user_id'],
             name=self.item_data_for_test['name'],
@@ -485,17 +487,22 @@ class TestItemUpdateView(TestCase):
 
     def test_item_update_successfully(self):
 
-        response = self.client.post(
-            reverse('item:item_update', args=[self.test_item.pk]),
-            self.item_data_for_test,
-            follow=True
+        # "item/item-update/<self.test_item.pk"へgetリクエストを送りresponseオブジェクトを受け取る
+        response = self.client.get(
+            reverse('item:item_update', args=[self.test_item.pk])
         )
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'item/item_detail.html')  # "item/item_update.html"がテンプレートとして使用されたか
+        self.assertTemplateUsed(response, 'item/item_update.html')  # "item/item_update.html"がテンプレートとして使用されたか
         self.assertContains(response, "abcあいう商品名123")  # response.contentのなかに"abcあいう商品名123"が含まれているか
 
         redirect_url = '/item/item-detail/' + str(self.test_item.pk) + '/'
+
+        response = self.client.post(
+            reverse('item:item_update', kwargs={'pk': self.test_item.pk}),
+            self.item_data_for_test,
+            follow=True
+        )
 
         # redirect_urlへリダイレクトされたか
         self.assertRedirects(
