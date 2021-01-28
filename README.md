@@ -1,6 +1,6 @@
 # ordering_system
 
-## Requirement
+## Requirements
 
 1. python3
 2. django
