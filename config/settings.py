@@ -5,6 +5,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
+
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 

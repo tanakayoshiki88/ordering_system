@@ -27,9 +27,9 @@
             <td>{{ order_item.pk }}</td>
             <td>
               {% if order_item.photo %}
-                <a href="{{ order_item.get_absolute_url }}"><img src="{{ order_item.photo.url }}" class="item-photo"/></a>
+                <a href="{% url 'item:item_detail' order_item.item_id %}"><img src="{{ order_item.photo.url }}" class="item-photo"/></a>
               {% else %}
-                <a href="{{ order_item.get_absolute_url }}"><p class="No-image">No image</p></a>
+                <a href="{% url 'item:item_detail' order_item.item_id %}"><p class="No-image">No image</p></a>
               {% endif %}
             </td>
             <td>{{ order_item.name }}</td>

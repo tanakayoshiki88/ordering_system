@@ -63,9 +63,10 @@
                                 数量: <span id="item-quantity">{{cart_item.quantity}}</span> x ￥{{cart_item.item.price}}
                             </td>
                             <td>
-                                ￥{{cart_item.sub_total}}
+                                ￥{{cart_item.sub_total}}（税抜）
                             </td>
-                            {% if cart_item.quantity < cart_item.item.stock %}
+                            {% if cart_item.item.available_stock > 0 %}
+                                <td>在庫数：{{ cart_item.item.available_stock }}{{ cart_item.item.unit }}</td>
                                 <td>
                                     <a href="{% url 'cart:add_cart' cart_item.item.id %}" class="increase-quantity">
                                         <i class="fas fa-plus-circle custom_icon"></i>
@@ -80,6 +81,7 @@
                                     </a>
                                 </td>
                             {% else %}
+                                <td>Out of stock</td>
                                 <td>
                                     &nbsp;
                                     <a href="{% url 'cart:reduce_quantity' cart_item.item.id %}" class="custom_a">
@@ -90,7 +92,6 @@
                                         <i class="far fa-trash-alt"></i>
                                     </a>
                                 </td>
-                                <td></td>
                             {% endif %}
                         </tr>
                         {% endfor %}
@@ -114,7 +115,7 @@
                     </tr>
                     <tr>
                         <td class="text-left">
-                            合計金額: <strong>￥{{ total }}</strong>
+                            合計金額（税込）: <strong>￥{{ total }}</strong>
                         </td>
                     </tr>
                   </tbody>

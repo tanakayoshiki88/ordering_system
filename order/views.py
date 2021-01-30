@@ -10,6 +10,7 @@ from django.views import generic
 
 from order.models import Order
 from cart.models import Cart, CartItem
+from item.models import Item
 
 from .forms import ContactForm, OrderUpdateFormSetBySeller
 
@@ -48,6 +49,7 @@ class PlacedOrderListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 30
 
     def get_queryset(self):
+        logger.info("os.environ.get('ALLOWED_HOSTS'):  {0}".format(os.environ.get('ALLOWED_HOSTS')))
         order_items = Order.objects.filter(buyer=self.request.user).order_by('pk')
         return order_items
 
@@ -63,6 +65,14 @@ def order_create(request):
 
         # Orderモデルインスタンス作成
         for cart_item in cart_items:
+
+            # Itemモデルのstock（在庫数）とreserved_stock（引当在庫数）フィールドを発注分減らす
+            item = Item.objects.get(pk=cart_item.item.id)
+            item.stock -= cart_item.quantity
+            item.reserved_stock -= cart_item.quantity
+            
+            item.save()
+
             if cart_item.item.including_tax:
                 total_price = (cart_item.item.price * cart_item.quantity)
                 total_unit = cart_item.quantity

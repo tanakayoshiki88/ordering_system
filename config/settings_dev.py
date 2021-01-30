@@ -1,6 +1,7 @@
 from .settings_common import *
 
 import os
+import logging
 
 # local_settings.pyからSECRET_KEYを読み込み
 try:
@@ -10,6 +11,9 @@ except ImportError:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+logger = logging.getLogger(__name__)
+logger.info("os.environ.get('ALLOWED_HOSTS'):  {0}".format(os.environ.get('ALLOWED_HOSTS')))
 
 ALLOWED_HOSTS = []
 
