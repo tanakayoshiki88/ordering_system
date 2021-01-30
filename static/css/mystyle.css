@@ -132,8 +132,8 @@
     border: none;
 }
 
-# .item-photo-column {
-#     min-width: 130px;
+.item-photo-column {
+     min-width: 130px;
 }
 
 th {
