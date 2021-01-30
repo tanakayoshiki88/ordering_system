@@ -45,7 +45,7 @@ class ItemListView(LoginRequiredMixin, generic.ListView):
         return items
 
 
-class ItemDetailView(LoginRequiredMixin, generic.DetailView):
+class ItemDetailView(generic.DetailView):
     """商品詳細表示機能"""
     template_name = 'item/item_detail.html'
     model = Item
@@ -81,7 +81,7 @@ class ItemDeleteView(LoginRequiredMixin, generic.DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class OrderItemListView(LoginRequiredMixin, generic.ListView):
+class OrderItemListView(generic.ListView):
 
     """購入商品一覧機能"""
     template_name = 'item/order_item_list.html'
@@ -90,5 +90,10 @@ class OrderItemListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 2
 
     def get_queryset(self):
-        items = Item.objects.all().exclude(user=self.request.user).order_by('pk')
-        return items
+        # ログイン済み会なかで処理を分岐
+        if self.request.user.is_authenticated:
+            items = Item.objects.all().exclude(user=self.request.user).order_by('pk')
+            return items
+        else:
+            items = Item.objects.all().order_by('pk')
+            return items
