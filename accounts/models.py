@@ -3,7 +3,7 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    '''拡張ユーザーモデル'''
+    """拡張ユーザーモデル"""
     class Meta:
         app_label = 'accounts'
         db_table = 'custom_user'

@@ -14,9 +14,8 @@ class Order(models.Model):
         ordering = ['-order_date']
 
     # カラム定義
-    buyer = models.ForeignKey(CustomUser, verbose_name='購入者', on_delete=models.PROTECT, related_name='buyer', default=0)
-    seller = models.ForeignKey(CustomUser, verbose_name='販売者', on_delete=models.PROTECT, related_name='seller', default=0)
-    cart_id = models.CharField(verbose_name='カートID', max_length=40, default='dummy_cart_id')
+    buyer = models.ForeignKey(CustomUser, verbose_name='購入者', on_delete=models.PROTECT, related_name='buyer_in_order')
+    seller = models.ForeignKey(CustomUser, verbose_name='販売者', on_delete=models.PROTECT, related_name='seller')
     item_id = models.CharField(verbose_name='商品ID', max_length=40, default='dummy_item_id')
     name = models.CharField(verbose_name='商品名', max_length=40, default='dummy_name')
     price = models.IntegerField(verbose_name='単価', default=0)

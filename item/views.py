@@ -22,7 +22,6 @@ class ItemCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         item = form.save(commit=False)
         item.user = self.request.user
-        item.available_stock = item.stock  # フォームに入力された在庫数(stock)を有効在庫数としてavailable_stockへ挿入
         item.save()
 
         messages.success(self.request, '商品を登録しました。')
@@ -65,8 +64,6 @@ class ItemUpdateView(LoginRequiredMixin, generic.UpdateView):
         item = Item.objects.get(pk=self.object.pk)
         form_item = form.save(commit=False)
         form_item.user = self.request.user
-        available_value = form_item.stock - item.reserved_stock
-        form_item.available_stock = available_value  # フォームに入力された在庫数(stock)から引当在庫を引いて有効在庫数に入力
 
         item.save()
 

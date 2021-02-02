@@ -2,10 +2,8 @@ from django.contrib.auth import get_user, get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-
 from accounts.models import CustomUser
 from item.models import Item
-from cart.models import Cart, CartItem
 
 
 class TestAddCart(TestCase):
@@ -52,6 +50,7 @@ class TestAddCart(TestCase):
         self.test_item_data = {
             "user_id": self.test_user_001.pk,
             "name": "abcあいう商品名001",
+            "stock": 10,
             "price": 123,
             "unit": "本"
         }
@@ -60,36 +59,16 @@ class TestAddCart(TestCase):
         self.item = Item.objects.create(
             user_id=self.test_item_data['user_id'],
             name=self.test_item_data['name'],
+            stock=self.test_item_data['stock'],
             price=self.test_item_data['price'],
             unit=self.test_item_data['unit']
         )
 
-    def test_add_create(self):
-
-        request = {
-            "session_key": self.client.session.session_key
-        }
+    def test_add_cart(self):
 
         response = self.client.post(
             reverse('cart:add_cart', kwargs={'item_id': self.item.id}),
-            request,
             follow=True
-        )
-
-        # 新規カートデータが追加されたか
-        self.assertTrue(
-            Cart.objects.filter(
-                cart_id=request["session_key"]
-            ).exists()
-        )
-
-        pk = Cart.objects.get(cart_id=request["session_key"]).pk
-
-        # 新規カートデータが追加されたか
-        self.assertTrue(
-            CartItem.objects.filter(
-                cart=pk
-            ).exists()
         )
 
         # redirect('cart:cart_detail')へリダイレクトされたか

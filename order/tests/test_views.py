@@ -2,13 +2,14 @@ from django.contrib.auth import get_user, get_user_model
 from django.test import TestCase
 from django.core import mail
 from django.urls import reverse
+from django.utils import timezone
 
 from order.forms import ContactForm
 
 from accounts.models import CustomUser
 from order.models import Order
 from item.models import Item
-from cart.models import Cart, CartItem
+from cart.models import CartItem
 
 import os
 
@@ -321,14 +322,16 @@ class TestOrderCreate(TestCase):
         self.test_item_data = {
             "user_id": self.test_user_001.pk,
             "name": "abcあいう商品名001",
+            "stock": 10,
             "price": 123,
             "unit": "本"
         }
 
-        # テスト用商品データをデータベスに挿入
+        # テスト用商品データをデータベースに挿入
         self.item = Item.objects.create(
             user_id=self.test_item_data['user_id'],
             name=self.test_item_data['name'],
+            stock=self.test_item_data['stock'],
             price=self.test_item_data['price'],
             unit=self.test_item_data['unit']
         )
@@ -341,33 +344,25 @@ class TestOrderCreate(TestCase):
         )
 
         # テスト用カートデータ
-        self.test_cart_data = {
-           "cart_id": self.client.session.session_key,
-        }
-
-        # テスト用カートデータをデータベースに挿入
-        self.cart = Cart.objects.create(
-            cart_id=self.test_cart_data["cart_id"]
-        )
-
-        # テスト用カートデータが追加されたか
-        self.assertTrue(
-            Cart.objects.filter(
-                cart_id=self.cart.cart_id
-            ).exists()
-        )
+       # self.test_cart_data = {
+       #     item: self.test_item_data['name'],
+       #     quantity: 2,
+       #     is_active: True,
+       #     buyer: self.test_item_data['user_id'],
+       #     create_at: timezone.now()
+       # }
 
         # テスト用カート商品データ
         self.test_cart_item_data = {
             "item": self.item,
-            "cart": self.cart,
-            "quantity": 2
+            "buyer": self.test_user_data_001['username'],
+            "quantity": 1
         }
 
         # テスト用カート商品データをデータベースに挿入
         self.cart_item = CartItem.objects.create(
             item=self.test_cart_item_data["item"],
-            cart=self.test_cart_item_data["cart"],
+            buyer=self.test_user_001,
             quantity=self.test_cart_item_data["quantity"]
 
         )
@@ -375,7 +370,7 @@ class TestOrderCreate(TestCase):
         # テスト用カート商品データが追加されたか
         self.assertTrue(
             CartItem.objects.filter(
-                cart=self.cart_item.cart
+                item=self.cart_item.item
             ).exists()
         )
 
@@ -383,7 +378,7 @@ class TestOrderCreate(TestCase):
 
         response = self.client.post(
             reverse("order:order_create"),
-            self.test_cart_data,
+            self.test_cart_item_data,
             follow=True
         )
 
@@ -409,4 +404,4 @@ class TestOrderCreate(TestCase):
         self.assertEqual('testuser001@example.com', self.email.to[0])  # 宛先メールアドレスが正しいかどうか
         self.assertEqual(os.environ.get('DEFAULT_FROM_EMAIL'), self.email.from_email)
         self.assertEqual('Juhatchu 発注情報', self.email.subject)  # 件名が正しいかどうか
-        self.assertIn('abcあいう商品名001 - 2', self.email.body)  # 本文に"abcあいう商品名001 - 2"が含まれているか
+        self.assertIn('abcあいう商品名001 - 1本', self.email.body)  # 本文に"abcあいう商品名001 - 2"が含まれているか

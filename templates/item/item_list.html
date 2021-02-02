@@ -35,8 +35,8 @@
             <td>{{ item.name }}</td>
             <td>{{ item.price }}</td>
             <td>{{ item.including_tax }}</td>
-            {% if item.available_stock > 0 %}
-              <td>{{ item.available_stock }}{{ item.unit }}</td>
+            {% if item.stock > 0 %}
+              <td>{{ item.stock }}{{ item.unit }}</td>
             {% else %}
               <td>Out of stock</td>
             {% endif %}
