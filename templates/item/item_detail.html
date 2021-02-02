@@ -51,8 +51,8 @@
             </tr>
             <tr>
                 <th>有効在庫数</th>
-                {% if item.available_stock > 0 %}
-                  <td>{{ item.available_stock }}{{ item.unit }}</td>
+                {% if item.stock > 0 %}
+                  <td>{{ item.stock }}{{ item.unit }}</td>
                 {% else %}
                   <td>Out of stock</td>
                 {% endif %}
@@ -99,7 +99,7 @@
         {% if user.is_authenticated and user == item.user %}
 
         {% else %}
-            {% if item.available_stock > 0 %}
+            {% if item.stock > 0 %}
                 <a class="btn btn-primary" href="{% url 'cart:add_cart' item.id %}">カートに追加</a>
             {% else %}
                 <span>現在、こちらの商品は取り扱いできません。</span><a class="btn btn-primary" href="{{request.META.HTTP_REFERER}}">戻る</a>

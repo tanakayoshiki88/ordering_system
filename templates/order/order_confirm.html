@@ -3,12 +3,12 @@
 {% load static %}
 
 {% block metadescription %}
-    これはショッピングカートのページです。商品を確認し、注文してください。
+    これは発注確認ページです。商品を確認し、注文してください。
 {% endblock %}
 
-{% block title %}ショッピングカート | Juhatchu{% endblock %}
+{% block title %}発注確認 | Juhatchu{% endblock %}
 
-{% block content_title %}Cart - Juhatchu{% endblock %}
+{% block content_title %}Oder Confirm - Juhatchu{% endblock %}
 
 {% block contents %}
 
@@ -28,7 +28,7 @@
             <div class="text-center">
                 <br>
                 <h1 class="text-center my_title">
-                    ショッピングカート
+                    発注確認
                 </h1>
             </div>
             <br>
@@ -60,36 +60,24 @@
                                 <br>
                                 単価: ￥{{cart_item.item.price}}
                                 <br>
-                                在庫数: <span id="item-stock">{{cart_item.item.stock}}</span>
+                                在庫数: <span id="item-quantity">{{cart_item.item.stock}}</span>
                             </td>
                             <td>
                                 <div class="container">
                                     <div class="row">
-                                       {% if cart_item.item.stock > 0 %}
-                                            <div class="col">
-                                                数量：<span id="item-quantity">{{ cart_item.quantity }}</span>{{ cart_item.item.unit }} x 単価：￥{{ cart_item.item.price }}
-                                            </div>
-                                            <div class="col-3">
-                                                <a href="{% url 'cart:add_cart' cart_item.item.id %}" class="increase-quantity">
-                                                    <i class="fas fa-plus-circle custom_icon"></i>
-                                                </a>
-                                                    &nbsp;
-                                                <a href="{% url 'cart:reduce_quantity' cart_item.item.id %}" class="reduce-quantity">
-                                                    <i class="fas fa-minus-circle custom_icon"></i>
-                                                </a>
-                                                    &nbsp;
-                                                <a href="{% url 'cart:cart_item_remove' cart_item.item.id %}" class="item-remove">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </a>
-                                            </div>
-                                        {% else %}
-                                            <div class="col">Out of stock</div>
-                                            <div class="col-3">
-                                                <a href="{% url 'cart:cart_item_remove' cart_item.item.id %}" class="item-remove">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </a>
-                                            </div>
-                                        {% endif %}
+
+                                    {% if cart_item.item.stock > 0 %}
+                                        <div class="col">
+                                            数量：{{ cart_item.quantity }}{{ cart_item.item.unit }} x 単価：￥{{ cart_item.item.price }}
+                                        </div>
+                                    {% else %}
+                                        <div class="col-4">Out of stock</div>
+                                        <div class="col-3">
+                                            <a href="{% url 'cart:cart_item_remove' cart_item.item.id %}" class="item-remove">
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                         <div class="col">
                                             合計金額：￥{{cart_item.sub_total}}（税抜）
                                         </div>
@@ -127,15 +115,15 @@
                     </tr>
                     <tr>
                         <td class="text-left">
-                            合計金額（税込）: <strong>￥{{ total }}</strong>
+                            総合計金額（税込）: <strong>￥{{ total }}</strong>
                         </td>
                     </tr>
                   </tbody>
                 </table>
                 {% if total > 0 %}
                     <div class="mx-auto">
-                        <a href="{% url 'order:order_confirm' %}" class="btn btn-primary btn-user btn-block order-confirm">
-                            発注確認画面へ<i class="fas fa-angle-double-right ml-2"></i>
+                        <a href="{% url 'order:order_create' %}" class="btn btn-primary btn-user btn-block submit-order">
+                            <i class="fas fa-fax mr-2"></i>発注する
                         </a>
                     </div>
                 {% endif %}

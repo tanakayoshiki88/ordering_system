@@ -70,7 +70,8 @@ TEMPLATES = [
         'DIRS': [
                  os.path.join(BASE_DIR, 'templates'),
                  os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth'),
-                 os.path.join(BASE_DIR, 'templates', 'cart')
+                 os.path.join(BASE_DIR, 'templates', 'cart'),
+                 os.path.join(BASE_DIR, 'templates', 'order')
         ],
         'APP_DIRS': True,
         'OPTIONS': {

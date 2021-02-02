@@ -22,8 +22,6 @@ class Item(models.Model):
     including_tax = models.BooleanField(verbose_name='税込', default=False)
     unit = models.CharField(verbose_name='単位', max_length=10, default='個')
     stock = models.IntegerField(verbose_name='実在庫数', validators=[MinValueValidator(0)], default=0)
-    reserved_stock = models.IntegerField(verbose_name='引当在庫数', default=0)
-    available_stock = models.IntegerField(verbose_name='有効在庫数', default=0)
     moq = models.IntegerField(verbose_name='最低発注数量', blank=True, null=True, default=0)
     spq = models.IntegerField(verbose_name='最小発注単位', blank=True, null=True, default=0)
     category1 = models.CharField(verbose_name='カテゴリ1', max_length=30, blank=True, null=True)
