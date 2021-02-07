@@ -4,10 +4,10 @@ import os
 import logging
 
 # local_settings.pyからSECRET_KEYを読み込み
-#try:
-#    from .local_settings import *
-#except ImportError:
-#    pass
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

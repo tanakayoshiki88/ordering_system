@@ -10,11 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
-
 from django.contrib.messages import constants as messages
 
 import os

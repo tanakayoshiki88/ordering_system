@@ -847,7 +847,7 @@ class TestSearchItemListView(TestCase):
 
     def test_item_search(self):
 
-        # ログインしていないユーザーに取る検索
+        # ログインしていないユーザーによる検索
         response = self.client.get('/item/search-item-list/', {'query': 'cあいう商品名001'})
 
         self.assertEqual(response.status_code, 200)  # 正常にページが表示されたか
