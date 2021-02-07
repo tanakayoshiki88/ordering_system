@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user, get_user_model
 from django.test import TestCase
 from django.urls import reverse_lazy, reverse
+from django.db.models import Q
 from item.forms import ItemCreateForm, ItemUpdateForm
 
 from accounts.models import CustomUser
@@ -622,7 +623,7 @@ class TestItemDeleteView(TestCase):
         )
 
 
-class OrderItemListView(TestCase):
+class TestOrderItemListView(TestCase):
 
     def setUp(self):
         """ログインユーザー001"""
@@ -751,3 +752,106 @@ class OrderItemListView(TestCase):
         self.assertContains(response, "abcあいう商品名002")  # response.contentのなかに"abcあいう商品名001"が含まれているか
         self.assertContains(response, self.test_item_002.pk)  # response.contentのなかに"self.test_item_002.pk"が含まれているか
         self.assertNotContains(response, "abcあいう商品名001")  # response.contentのなかに"abcあいう商品名001"が含まれていないか
+
+
+class TestSearchItemListView(TestCase):
+
+    # セットアップ
+    def setUp(self):
+        test_users = []
+        test_items = []
+
+        # test用ログインユーザ001のデータ
+        self.test_user_data_001 = CustomUser(
+            username='testuser001',
+            email='testuser001@example.com',
+            password='abcdefg123456',
+        )
+
+        # test用ログインユーザ002のデータ
+        self.test_user_data_002 = CustomUser(
+            username='testuser002',
+            email='testuser002@example.com',
+            password='hijklmn7890',
+        )
+
+        # リストに追加
+        test_users.append(
+            self.test_user_data_001
+        )
+
+        # リストに追加
+        test_users.append(
+            self.test_user_data_002
+        )
+
+        # ユーザデータ作成
+        CustomUser.objects.bulk_create(test_users)
+
+        # 新規ユーザ'test_user_data_001'が追加されたか
+        self.assertTrue(
+            CustomUser.objects.filter(
+                email='testuser001@example.com'
+            ).exists()
+        )
+
+        # 新規ユーザ'test_user_data_002'が追加されたか
+        self.assertTrue(
+            CustomUser.objects.filter(
+                email='testuser002@example.com'
+            ).exists()
+        )
+
+        # test用商品データ001
+        self.test_item_data_001 = Item(
+            user_id=self.test_user_data_001.pk,
+            name='abcあいう商品名001',
+            price=1,
+            unit='束'
+        )
+
+        # test用商品データ002
+        self.test_item_data_002 = Item(
+            user_id=self.test_user_data_002.pk,
+            name='abcあいう商品名002',
+            price=2,
+            unit='個'
+        )
+
+        # リストに追加
+        test_items.append(
+            self.test_item_data_001
+        )
+
+        # リストに追加
+        test_items.append(
+            self.test_item_data_002
+        )
+
+        # 商品データ作成
+        Item.objects.bulk_create(test_items)
+
+        # 新規商品データ'test_item_data_001'が追加されたか
+        self.assertTrue(
+            Item.objects.filter(
+                name='abcあいう商品名001'
+            ).exists()
+        )
+
+        # 新規商品データ'test_item_data_002'が追加されたか
+        self.assertTrue(
+            Item.objects.filter(
+                name='abcあいう商品名002'
+            ).exists()
+        )
+
+    def test_item_search(self):
+
+        # ログインしていないユーザーに取る検索
+        response = self.client.get('/item/search-item-list/', {'query': 'cあいう商品名001'})
+
+        self.assertEqual(response.status_code, 200)  # 正常にページが表示されたか
+        self.assertTemplateUsed(response, 'item/search_item_list.html')  # "item/search_item_list.html"がテンプレートとして使用されたか
+        self.assertContains(response, "abcあいう商品名001")  # response.contentのなかに"abcあいう商品名001"が含まれているか
+        self.assertContains(response, self.test_item_data_001.pk)  # response.contentのなかに"self.test_item_001.pk"が含まれているか
+        self.assertNotContains(response, "abcあいう商品名002")  # response.contentのなかに"abcあいう商品名002"が含まれていないか
