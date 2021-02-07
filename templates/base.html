@@ -154,12 +154,22 @@
                 </button>
 
                 <!-- Topbar Search -->
-                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <form action="{% url 'item:search_item_list' %}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="">
+                            {% if user.is_authenticated %}
+                                <select name="select-item" class="search-select-item form-control border-0 small">
+                                    <option value="purchase-items" selected>購入商品検索</option>
+                                    <option value="sales-items">販売商品検索</option>
+                                </select>
+                            {% else %}
+                                <div>商品検索</div>
+                            {% endif %}
+                        </div>
+                        <input type="text" class="form-control bg-light small" name="query" placeholder="Search for..."
+                               aria-label="Search" aria-describedby="basic-addon2" title="検索ワードを入力してください。" required>
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -408,7 +418,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Webite 2019</span>
+                    <span>Copyright &copy; Your Website 2019</span>
                 </div>
             </div>
         </footer>

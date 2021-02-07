@@ -15,6 +15,8 @@ try:
 except ImportError:
     pass
 
+print(SECRET_KEY)
+
 from django.contrib.messages import constants as messages
 
 import os

@@ -52,7 +52,12 @@ class ContactForm(forms.Form):
         ]
 
         message_from = EmailMessage(subject=subject, body=body_for_from, from_email=from_email, to=to_list_for_from)
-        message_questioner = EmailMessage(subject=subject, body=body_for_questioner, from_email=from_email, to=to_list_for_questioner)
+        message_questioner = EmailMessage(
+            subject=subject,
+            body=body_for_questioner,
+            from_email=from_email,
+            to=to_list_for_questioner
+        )
 
         message_from.send()
         message_questioner.send()
@@ -72,4 +77,10 @@ class OrderUpdateForm(forms.ModelForm):
 
 
 # オーダー編集フォームセット
-OrderUpdateFormSetBySeller = forms.modelformset_factory(Order, fields=('id', 'is_active',), form=OrderUpdateForm, extra=0)
+OrderUpdateFormSetBySeller =\
+    forms.modelformset_factory(
+        Order,
+        fields=('id', 'is_active',),
+        form=OrderUpdateForm,
+        extra=0
+    )

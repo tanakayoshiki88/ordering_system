@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from item.models import Item
+from django.db.models import Q
 
 from .forms import ItemCreateForm, ItemUpdateForm
 
@@ -91,7 +92,6 @@ class OrderItemListView(generic.ListView):
     """購入商品一覧機能"""
     template_name = 'item/order_item_list.html'
     model = Item
-    success_url = reverse_lazy('order:index')
     paginate_by = 2
 
     def get_queryset(self):
@@ -102,3 +102,92 @@ class OrderItemListView(generic.ListView):
         else:
             items = Item.objects.all().order_by('pk')
             return items
+
+
+class SearchItemListView(generic.ListView):
+    """商品検索結果表示"""
+    template_name = 'item/search_item_list.html'
+    model = Item
+    paginate_by = 3
+
+
+    def get_queryset(self):
+        # ログイン済みか否かで処理を分岐
+        if self.request.user.is_authenticated:
+            # ログイン済み
+            query = self.request.GET.get('query')
+            select_item = self.request.GET.get('select-item')
+
+
+            # select_itemがpurchase-itemかsales-itemかで分岐
+            if select_item == 'purchase-item':
+
+                # 購入商品検索(purchase-item)
+                items = Item.objects.filter(
+                    Q(name__icontains=query)
+                    | Q(item_description__icontains=query)
+                    | Q(category1__icontains=query)
+                    | Q(category2__icontains=query)
+                    | Q(category3__icontains=query)
+                ).exclude(user=self.request.user).order_by('pk')
+
+                # 検索結果件数
+                count = Item.objects.filter(
+                    Q(name__icontains=query)
+                    | Q(item_description__icontains=query)
+                    | Q(category1__icontains=query)
+                    | Q(category2__icontains=query)
+                    | Q(category3__icontains=query)
+                ).exclude(user=self.request.user).order_by('pk').count()
+
+                messages.success(self.request, query + 'を含む検索結果：' + str(count) + '件')
+
+            else:
+
+                # 販売商品検索(sales-item)
+                items = Item.objects.filter(
+                    Q(name__icontains=query)
+                    | Q(item_description__icontains=query)
+                    | Q(category1__icontains=query)
+                    | Q(category2__icontains=query)
+                    | Q(category3__icontains=query)
+                ).filter(user=self.request.user).order_by('pk')
+
+                # 検索結果件数
+                count = Item.objects.filter(
+                    Q(name__icontains=query)
+                    | Q(item_description__icontains=query)
+                    | Q(category1__icontains=query)
+                    | Q(category2__icontains=query)
+                    | Q(category3__icontains=query)
+                ).filter(user=self.request.user).order_by('pk').count()
+
+                messages.success(self.request, query + 'を含む検索結果：' + str(count) + '件')
+
+            return items
+
+        else:
+            # ログイン未済
+            query = self.request.GET.get('query')
+
+            # 販売登録されたすべての商品を取得
+            items = Item.objects.filter(
+                Q(name__icontains=query)
+                | Q(item_description__icontains=query)
+                | Q(category1__icontains=query)
+                | Q(category2__icontains=query)
+                | Q(category3__icontains=query)
+            ).order_by('pk')
+
+            # レコード件数を取得
+            count = Item.objects.filter(
+                Q(name__icontains=query)
+                | Q(item_description__icontains=query)
+                | Q(category1__icontains=query)
+                | Q(category2__icontains=query)
+                | Q(category3__icontains=query)
+            ).order_by('pk').count()
+
+            messages.success(self.request, query + 'を含む検索結果：' + str(count) + '件')
+
+        return items
