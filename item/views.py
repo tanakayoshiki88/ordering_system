@@ -120,7 +120,7 @@ class SearchItemListView(generic.ListView):
 
 
             # select_itemがpurchase-itemかsales-itemかで分岐
-            if select_item == 'purchase-item':
+            if select_item == 'purchase-items':
 
                 # 購入商品検索(purchase-item)
                 items = Item.objects.filter(
