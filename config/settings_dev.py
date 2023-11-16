@@ -15,7 +15,7 @@ DEBUG = True
 logger = logging.getLogger(__name__)
 logger.info("os.environ.get('ALLOWED_HOSTS'):  {0}".format(os.environ.get('ALLOWED_HOSTS')))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # メールバックエンド設定
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
