@@ -9,107 +9,83 @@
 5. postgresql
 6. psycopg2-binary
 
-
 ## Installation
 
-1. $ brew install python
+1. $ brew install postgresql
 
-2. $ python3 --version
+   1. $ psql --version
+   2. $ brew services start postgresql
+   3. $ createdb -U "username" ordering_system
+   4. $ psql -l
+   5. $ brew services stop postgresql
+   6. $ vi ~/.bash_profile
+      ```
+      export DB_USER="your_username"
+      export DB_PASSWORD="your_password"
+      ```
+   7. $ source ~/.bash_profile
 
-3. $ cd "any directory"
-4. $ git clone https://github.com/tanakayoshiki88/ordering_system.git
+2. $ brew install python
 
-5. $ cd ordering_system 
+3. $ python3 --version
 
-6. $ python3 -m venv venv
+4. $ cd "any directory"
 
-7. $ source venv/bin/activate
+5. $ git clone https://github.com/tanakayoshiki88/ordering_system.git
 
-8. (venv) $ pip install django
+6. $ cd ordering_system
 
-9. (venv) $ python -m django --version
+7. $ python3 -m venv venv
 
-10. $ brew install postgresql
-    1.  $ psql --version
-    2.  $ brew services start postgresql
-    3.  $ createdb -U "username" ordering_system
-    4.  $ psql -lU "username"
-    5.  (venv) $ pip install psyc opg2-binary
-    6.  (venv) $ pip freeze
-    7.  (venv) $ brew services stop postgresql
-    8.  $ vi ~/.bash_profile
-        ######*-- insert --*
-        ```
-        export DB_USER="your_username"
-        export DB_PASSWORD="your_password"
-        ```
-    9.  $ source ~/.bash_profile
-   
-11. $ brew services start postgresql
-   
-12. (venv) $ pip install django-allauth
+8. $ source venv/bin/activate
 
-    (venv) $ pip freeze
+9. (venv) $ pip install -r requirements.txt
 
-13. (venv) $ pip install pillow
+10. $ (venv) cd config
 
-    (venv) $ pip freeze
+    $ (venv) python get_secret_key.py > local_settings.py
 
-14. $ cd config
+    $ (venv) cat get_secret_key.py
 
-    $ touch local_settings.py
+    > SECRET*KEY='\_secret_key*'
 
-    $ python get_secret_key.py > local_settings.py
-    
-    $ vi get_secret_key.py
-    
-    >   SECRET_KEY='*secret_key*'
-    
-    *vi command mode*
-    ```
-    :q!
-    ```
-    
-    $ cd ..
-    
-15. (venv) $ python manage.py makemigrations --settings config.settings_dev
+    $ (venv) cd ..
 
-    (venv) $ python manage.py migrate --settings config.settings_dev
-    
-16. (venv) $ pyton manage.py createsuperuser --settings config.settings_dev
+11. (venv) $ python manage.py migrate --settings config.settings_dev
+12. (venv) $ pyton manage.py createsuperuser --settings config.settings_dev
 
-    >    Username (leave blank to use 'user1'): *"admin"*
+    > Username (leave blank to use 'user1'): _"admin"_
     >
-    >    Email address: *"your email address""*
+    > Email address: _"your email address""_
     >
-    >    Password: *"password"*
+    > Password: _"password"_
     >
-    >    Password (again): *"again"* 
+    > Password (again): _"again"_
     >
-    >    Superuser created successfully.
-    
-17. (venv) $ python manage.py runserver --settings config.settings_dev
+    > Superuser created successfully.
+
+13. (venv) $ python manage.py runserver --settings config.settings_dev
 
     http://127.0.0.1:8000/
 
-18. sidebar > Pages > Sign up
+14. sidebar > Pages > Sign up
 
     input: email & password > "Register Account"
-      
+
     terminal:
+
     > ご登録ありがとうございます。
     >
     > 登録を続けるには、以下リンクをクリックしてください。
     >
     > http://127.0.0.1:8000/accounts/confirm-email/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/
-    >
-    
-    Copy the url and paste it into your browser.
-    
-    Then press the "confirm" button.
-    
-19. http://127.0.0.1:8000/admin
 
-    username: admin
-    
-    password: *"admin password"*
+    Copy the url and paste it into your browser.
+
+    Then press the "confirm" button.
+
+15. http://127.0.0.1:8000/admin
+
+    username: _"admin"_
+
+    password: _"admin password"_
