@@ -28,79 +28,75 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sites',
-
-    'item.apps.ItemConfig',
-    'order.apps.OrderConfig',
-    'cart.apps.CartConfig',
-
-    'accounts.apps.AccountsConfig',
-
-    'allauth',
-    'allauth.account',
-
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "item.apps.ItemConfig",
+    "order.apps.OrderConfig",
+    "cart.apps.CartConfig",
+    "accounts.apps.AccountsConfig",
+    "allauth",
+    "allauth.account",
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'config.urls'
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-                 os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'templates', 'accounts', 'allauth'),
-                 os.path.join(BASE_DIR, 'templates', 'cart'),
-                 os.path.join(BASE_DIR, 'templates', 'order')
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(BASE_DIR, "templates"),
+            os.path.join(BASE_DIR, "templates", "accounts", "allauth"),
+            os.path.join(BASE_DIR, "templates", "cart"),
+            os.path.join(BASE_DIR, "templates", "order"),
         ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'cart.context_processors.item_counter',
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "cart.context_processors.item_counter",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ordering_system',
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': '',
-        'PORT': '',
-        'ATOMIC_REQUESTS': True,
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "ordering_system",
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": "",
+        "PORT": "",
+        "ATOMIC_REQUESTS": True,
     }
 }
 
 # 拡張ユーザーモデル
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 
 # Password validation
@@ -108,16 +104,20 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation"
+                ".UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.Minim"
+                "umLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation"
+                ".CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation"
+                ".NumericPasswordValidator",
     },
 ]
 
@@ -125,9 +125,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'ja'
+LANGUAGE_CODE = "ja"
 
-TIME_ZONE = 'Asia/Tokyo'
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
@@ -137,23 +137,19 @@ USE_TZ = True
 
 # 静的ファイルの場所
 
-STATICFILES_DIRS = (
-
-    os.path.join(BASE_DIR, 'static'),
-
-)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # ラッシュメッセージの見栄えを良くするため、BootstrapのAlertsと紐付ける
 MESSAGE_TAGS = {
-    messages.ERROR: 'alert alert-danger',
-    messages.WARNING: 'alert alert-warning',
-    messages.SUCCESS: 'alert alert-success',
-    messages.INFO: 'alert alert-info',
+    messages.ERROR: "alert alert-danger",
+    messages.WARNING: "alert alert-warning",
+    messages.SUCCESS: "alert alert-success",
+    messages.INFO: "alert alert-info",
 }
 
 # django.allauthで利用するdjango.contrib.sitesを使うためにサイト識別用IDを設定
@@ -161,51 +157,50 @@ SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
     # 一般ユーザー用（メールアドレス認証:allauth固有の設定）
-    'allauth.account.auth_backends.AuthenticationBackend',
-
+    "allauth.account.auth_backends.AuthenticationBackend",
     # 管理サイト用（ユーザー名認証:allauthに関係なく設定が必要）
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
 )
 
 # メールアドレス認証に変更する設定
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_USERNAME_REQUIRED = False
 
 # ユーザー登録確認メールを送信する
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 
 # メールアドレスを必須項目にする
 ACCOUNT_EMAIL_REQUIRED = True
 
 # ログイン後の遷移先
-LOGIN_REDIRECT_URL = 'order:index'
+LOGIN_REDIRECT_URL = "order:index"
 
 # ログアウト後の遷移先
-ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
 
 # 中間ログアウトページを無効にする。ユーザーがログアウトリンクをクリックすると、すぐにログアウト
 ACCOUNT_LOGOUT_ON_GET = True
 
 # django-allauthの各フォームをカスタマイズ
 ACCOUNT_FORMS = {
-    'signup': 'accounts.forms.CustomSignupForm',
-    'login': 'accounts.forms.CustomLoginForm',
-    'reset_password': 'accounts.forms.CustomResetPasswordForm',
-    'reset_password_from_key': 'accounts.forms.CustomResetPasswordKeyForm'
+    "signup": "accounts.forms.CustomSignupForm",
+    "login": "accounts.forms.CustomLoginForm",
+    "reset_password": "accounts.forms.CustomResetPasswordForm",
+    "reset_password_from_key": "accounts.forms.CustomResetPasswordKeyForm",
 }
 
 # メディアファイルを保存するディレクトリを設定
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
 
 # Gmail送信設定
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-#EMAIL_HOST_USER = os.environ.get('DEFAULT_FROM_EMAIL')
-#EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-#EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.environ.get('DEFAULT_FROM_EMAIL')
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_TLS = True
 
 # デフォルト送信元メールアドレス
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
 # django-allauthが送信するメールの件名に自動付与される接頭辞をブランクにする設定
-ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""
