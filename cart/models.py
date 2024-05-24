@@ -26,7 +26,8 @@ class CartItem(models.Model):
         blank=True,
         null=True
     )
-    create_at = models.DateTimeField(verbose_name='カート作成日時', default=timezone.now)
+    create_at = models.DateTimeField(verbose_name='カート作成日時',
+                                     default=timezone.now)
 
     def sub_total(self):
         return self.item.price * self.quantity
